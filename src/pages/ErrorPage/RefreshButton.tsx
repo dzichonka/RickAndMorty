@@ -6,7 +6,14 @@ class RefreshButton extends React.Component {
   };
 
   render() {
-    return <button onClick={this.handleClick}>Refresh</button>;
+    return (
+      <button
+        className="bg-violet-500 text-black p-1 rounded"
+        onClick={this.handleClick}
+      >
+        Refresh
+      </button>
+    );
   }
 }
 
