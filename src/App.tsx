@@ -1,10 +1,10 @@
-import ThrowErrorButton from './shared/ErrorBoundary/ThrowErrorButton';
+import ErrorButton from './shared/ErrorBoundary/ErrorButton';
 
 function App() {
   return (
     <>
       <h1>Hello, Rick and Morty</h1>
-      <ThrowErrorButton />
+      <ErrorButton />
     </>
   );
 }

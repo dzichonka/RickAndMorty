@@ -4,7 +4,8 @@
 
 html {
   font-size: 16px;
-  background-color: vars.$color-white;
+  color: vars.$color-violet-500;
+  background-color: vars.$color-zinc-900;
 }
 
 * {
@@ -25,63 +26,4 @@ html {
 
 .section {
   padding: 1rem;
-
-  &-dog {
-    @include mixins.caption(2.5rem);
-    @include mixins.left;
-
-    background-color: vars.$color-white;
-    background-image: url('/images/dog.jpg');
-    background-repeat: no-repeat;
-    background-position: bottom right;
-    background-origin: content-box;
-    background-size: contain;
-  }
-}
-
-.title {
-  @include mixins.caption(2rem);
-  @include mixins.center;
-}
-
-.icon {
-  @include mixins.icon;
-}
-
-table {
-  border-collapse: collapse;
-  width: 100%;
-  background-color: vars.$color-primary25;
-}
-
-td {
-  padding: 0.5rem;
-  text-align: center;
-
-  & div {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    align-items: center;
-    justify-content: center;
-  }
-
-  &:nth-child(1) {
-    text-align: left;
-
-    & > div {
-      justify-content: flex-start;
-    }
-  }
-}
-
-th {
-  min-width: 5.5rem;
-  padding: 0.5rem;
-  font-weight: 600;
-  background-color: vars.$color-primary50;
-}
-
-tr:nth-child(even) {
-  background-color: vars.$color-primary50;
 }
