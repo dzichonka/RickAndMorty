@@ -5,7 +5,7 @@
   font-family: fonts.$second-family;
   font-size: $fs;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1;
 }
 
 @mixin btn($w: auto) {
@@ -15,12 +15,11 @@
   align-items: center;
   justify-content: center;
   width: $w;
-  height: 2.5rem;
-  padding: 1rem 2rem;
-  border: none;
+  padding: 0.5rem 1rem;
+  outline: none;
+  border-radius: 0.1rem;
   background-color: vars.$color-violet-500;
   color: vars.$color-black;
-  outline: none;
 
   &:disabled {
     cursor: default;
@@ -32,11 +31,36 @@
     transition: all 0.5s ease;
 
     &:hover {
-      background-color: vars.$color-violet-100;
+      background-color: vars.$color-violet-300;
     }
   }
 
   @media (width <= 750px) {
     padding: 0.5rem 1rem;
+  }
+}
+@mixin btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  outline: none;
+  border-radius: none;
+  background-color: transparent;
+  color: vars.$color-violet-500;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+
+  @media (hover: hover) {
+    cursor: pointer;
+    transition: all 0.5s ease;
+
+    &:hover {
+      scale: 1.2;
+      color: vars.$color-violet-300;
+    }
   }
 }
