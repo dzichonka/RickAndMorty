@@ -19,12 +19,11 @@ class ErrorButton extends React.Component<unknown, ErrorButtonState> {
     }
 
     return (
-      <button
-        className="bg-violet-500 text-black p-1 rounded"
-        onClick={this.handleClick}
-      >
-        Error Button
-      </button>
+      <div className="section flex justify-end">
+        <button className="btn" onClick={this.handleClick}>
+          Error Button
+        </button>
+      </div>
     );
   }
 }

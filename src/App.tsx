@@ -1,9 +1,11 @@
+import Search from './components/Search/Search';
 import ErrorButton from './shared/ErrorBoundary/ErrorButton';
 
 function App() {
   return (
     <>
-      <h1>Hello, Rick and Morty</h1>
+      <h1 className="section text-center">Rick and Morty</h1>
+      <Search />
       <ErrorButton />
     </>
   );

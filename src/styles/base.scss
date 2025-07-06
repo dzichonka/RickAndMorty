@@ -27,3 +27,10 @@ html {
 .section {
   padding: 1rem;
 }
+
+.btn {
+  @include mixins.btn;
+}
+.btn-icon {
+  @include mixins.btn-icon;
+}
