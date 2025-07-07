@@ -1,11 +1,7 @@
 import { Component } from 'react';
 import { BsSearch } from 'react-icons/bs';
 
-type Props = {
-  onSearch: (search: string) => void;
-};
-
-class Search extends Component<Props> {
+class Result extends Component {
   state = {
     search: localStorage.getItem('lastSearch') || '',
   };
@@ -14,7 +10,6 @@ class Search extends Component<Props> {
     event.preventDefault();
     if (this.state.search.trim()) {
       localStorage.setItem('lastSearch', this.state.search.trim());
-      this.props.onSearch(this.state.search.trim());
     }
   };
   render() {
@@ -37,4 +32,4 @@ class Search extends Component<Props> {
     );
   }
 }
-export default Search;
+export default Result;
