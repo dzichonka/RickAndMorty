@@ -1,14 +1,15 @@
+import ErrorButton from '@/components/ErrorButton/ErrorButton';
+import Loader from '@/components/Loader/Loader';
 import Result from '@/components/Results/Result';
 import Search from '@/components/Search/Search';
 import CharacterService from '@/services/CharacterServiece';
 import { Component } from 'react';
 
-// type TServices = { loading: boolean; error: Error | null; data: T | null };
 class MainPage extends Component {
   state = {
+    data: null,
     loading: false,
     error: null,
-    data: null,
   };
 
   characterService = new CharacterService();
@@ -30,10 +31,20 @@ class MainPage extends Component {
   };
   render() {
     return (
-      <div className="section">
-        <h1 className="section text-center">Rick and Morty App</h1>
+      <div className="section relative">
+        <h1 className="h-[100px] flex items-center justify-center">
+          <img
+            className="h-[100px]"
+            src="./images/rick-and-morty-title.png"
+            alt="rick and morty"
+          />
+        </h1>
         <Search onSearch={this.handleSearch} />
-        <Result />
+        {this.state.loading && <Loader />}
+        {this.state.error && <div>{this.state.error}</div>}
+        {this.state.data && <Result data={this.state.data} />}
+
+        <ErrorButton />
       </div>
     );
   }

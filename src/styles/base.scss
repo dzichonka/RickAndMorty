@@ -3,9 +3,12 @@
 @use './mixins.scss' as mixins;
 
 html {
+  width: 100vw;
+  height: 100vh;
   font-size: 16px;
-  color: vars.$color-violet-500;
-  background-color: vars.$color-zinc-900;
+  color: vars.$color-cyan-300;
+  background: url('./images/bg.png') no-repeat center center;
+  background-size: cover;
 }
 
 * {
@@ -31,6 +34,7 @@ html {
 .btn {
   @include mixins.btn;
 }
+
 .btn-icon {
   @include mixins.btn-icon;
 }
