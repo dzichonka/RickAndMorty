@@ -16,10 +16,11 @@
   justify-content: center;
   width: $w;
   padding: 0.5rem 1rem;
+  border: solid 1px vars.$color-cyan-300;
+  border-radius: 0.3rem;
+  color: vars.$color-cyan-300;
+  background-color: vars.$color-black;
   outline: none;
-  border-radius: 0.1rem;
-  background-color: vars.$color-violet-500;
-  color: vars.$color-black;
 
   &:disabled {
     cursor: default;
@@ -31,7 +32,9 @@
     transition: all 0.5s ease;
 
     &:hover {
-      background-color: vars.$color-violet-300;
+      scale: 1.02;
+      border: solid 1px vars.$color-lime-300;
+      color: vars.$color-lime-300;
     }
   }
 
@@ -39,15 +42,16 @@
     padding: 0.5rem 1rem;
   }
 }
+
 @mixin btn-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0.5rem;
-  outline: none;
   border-radius: none;
+  color: vars.$color-cyan-300;
   background-color: transparent;
-  color: vars.$color-violet-500;
+  outline: none;
 
   &:disabled {
     cursor: default;
@@ -60,7 +64,7 @@
 
     &:hover {
       scale: 1.2;
-      color: vars.$color-violet-300;
+      color: vars.$color-lime-300;
     }
   }
 }

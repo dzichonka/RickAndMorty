@@ -26,8 +26,8 @@ class Search extends Component<Props> {
             id="search"
             value={this.state.search}
             onChange={(event) => this.setState({ search: event.target.value })}
-            className="w-full px-2 py-1 border border-violet-500 rounded
-            focus:outline-none focus:ring-violet-200 focus:ring"
+            className="w-full px-2 py-1 border border-cyan-300 bg-black rounded
+            focus:outline-none focus:ring-lime-400 focus:ring"
           />
         </label>
         <button className="btn-icon" onClick={this.handleSearch}>
