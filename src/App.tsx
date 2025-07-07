@@ -1,12 +1,9 @@
-import Search from './components/Search/Search';
-import ErrorButton from './shared/ErrorBoundary/ErrorButton';
+import { MainPage } from './pages/MainPage/MainPage';
 
 function App() {
   return (
     <>
-      <h1 className="section text-center">Rick and Morty</h1>
-      <Search />
-      <ErrorButton />
+      <MainPage />
     </>
   );
 }
