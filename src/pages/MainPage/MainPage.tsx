@@ -14,6 +14,11 @@ class MainPage extends Component {
 
   characterService = new CharacterService();
 
+  componentDidMount() {
+    const lastSearch = localStorage.getItem('lastSearch') || '';
+    this.handleSearch(lastSearch);
+  }
+
   handleSearch = async (search: string): Promise<void> => {
     this.setState({ loading: true, error: null });
     try {
@@ -40,7 +45,7 @@ class MainPage extends Component {
         </h1>
         <Search onSearch={this.handleSearch} />
         {this.state.loading && <Loader />}
-        {this.state.error && (
+        {this.state.error && !this.state.loading && (
           <div>
             <div>
               <h1 className="h-[100px] flex items-center justify-center">
@@ -56,7 +61,7 @@ class MainPage extends Component {
             </h2>
           </div>
         )}
-        {this.state.data && !this.state.error && (
+        {this.state.data && !this.state.loading && !this.state.error && (
           <Result data={this.state.data} />
         )}
         <ErrorButton />

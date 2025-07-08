@@ -5,7 +5,10 @@ type Props = { data: ICharacter };
 class Card extends Component<Props> {
   render() {
     return (
-      <div className="flex flex-col items-center justify-start gap-3 bg-black w-[200px] h-[250px] p-4 rounded">
+      <div
+        className="flex flex-col items-center justify-start gap-3 bg-black/65 w-[200px] h-[250px] p-4 rounded
+      hover:bg-black/100 hover:scale-101 transition-all duration-300"
+      >
         <div className="h-[150px] overflow-hidden rounded">
           <img
             className="h-full w-full display-block object-cover"
