@@ -17,12 +17,11 @@ class MainPage extends Component {
   handleSearch = async (search: string): Promise<void> => {
     this.setState({ loading: true, error: null });
     try {
-      const response = await this.characterService.getAllCharacters();
-      const filteredData = response.results.filter((character) =>
-        character.name.toLowerCase().includes(search.toLowerCase())
+      const response = await this.characterService.getAllCharacters(
+        1,
+        search.trim() ? { name: search } : undefined
       );
-      this.setState({ data: filteredData });
-      console.log('Filtered Characters:', filteredData);
+      this.setState({ data: response.results });
     } catch {
       this.setState({ error: 'Failed to fetch characters' });
     } finally {
@@ -41,9 +40,25 @@ class MainPage extends Component {
         </h1>
         <Search onSearch={this.handleSearch} />
         {this.state.loading && <Loader />}
-        {this.state.error && <div>{this.state.error}</div>}
-        {this.state.data && <Result data={this.state.data} />}
-
+        {this.state.error && (
+          <div>
+            <div>
+              <h1 className="h-[100px] flex items-center justify-center">
+                <img
+                  className="h-[100px]"
+                  src="./images/rick-and-morty-image.png"
+                  alt="rick and morty"
+                />
+              </h1>
+            </div>
+            <h2 className="text-gray-200 bg-black text-center text-2xl">
+              {this.state.error}
+            </h2>
+          </div>
+        )}
+        {this.state.data && !this.state.error && (
+          <Result data={this.state.data} />
+        )}
         <ErrorButton />
       </div>
     );

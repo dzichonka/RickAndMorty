@@ -10,10 +10,16 @@ export default class CharacterService {
     }
     return (await res.json()) as T;
   };
+
   public getAllCharacters = async (
-    page: number = 1
+    page: number = 1,
+    params?: { name?: string }
   ): Promise<IApiResponse<ICharacter>> => {
-    const url = `${this._apiBase}/?page=${page}`;
+    const query = new URLSearchParams({ page: page.toString() });
+    if (params?.name && params.name.trim() !== '') {
+      query.append('name', params.name.trim());
+    }
+    const url = `${this._apiBase}/?${query.toString()}`;
     return this.getResource<IApiResponse<ICharacter>>(url);
   };
 
