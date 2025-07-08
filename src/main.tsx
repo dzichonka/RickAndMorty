@@ -12,6 +12,7 @@ document.body.appendChild(rootElement);
 
 createRoot(rootElement).render(
   <StrictMode>
+    <div className="background"></div>
     <ErrorBoundary>
       <App />
     </ErrorBoundary>

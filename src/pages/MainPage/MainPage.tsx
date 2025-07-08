@@ -31,7 +31,7 @@ class MainPage extends Component {
   };
   render() {
     return (
-      <div className="section relative">
+      <div className="section">
         <h1 className="h-[100px] flex items-center justify-center">
           <img
             className="h-[100px]"

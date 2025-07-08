@@ -2,13 +2,14 @@
 @use './variables.scss' as vars;
 
 @mixin text($fs: 1rem) {
-  font-family: fonts.$second-family;
+  font-family: fonts.$first-family;
   font-size: $fs;
   font-weight: 400;
   line-height: 1;
 }
 
 @mixin btn($w: auto) {
+  font-family: fonts.$font-family;
   display: inline-flex;
   flex-direction: row;
   gap: 0.25rem;
@@ -16,8 +17,7 @@
   justify-content: center;
   width: $w;
   padding: 0.5rem 1rem;
-  border: solid 1px vars.$color-cyan-300;
-  border-radius: 0.3rem;
+  border: none;
   color: vars.$color-cyan-300;
   background-color: vars.$color-black;
   outline: none;
@@ -32,8 +32,7 @@
     transition: all 0.5s ease;
 
     &:hover {
-      scale: 1.02;
-      border: solid 1px vars.$color-lime-300;
+      scale: 1.05;
       color: vars.$color-lime-300;
     }
   }

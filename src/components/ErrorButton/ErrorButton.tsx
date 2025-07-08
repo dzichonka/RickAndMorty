@@ -19,11 +19,8 @@ class ErrorButton extends React.Component<unknown, ErrorButtonState> {
     }
 
     return (
-      <button
-        className="btn absolute bottom-15 right-10"
-        onClick={this.handleClick}
-      >
-        Error Button
+      <button className="btn absolute top-5 right-5" onClick={this.handleClick}>
+        Error
       </button>
     );
   }

@@ -1,10 +1,19 @@
 import type { ICharacter } from '@/types/api-types';
 import { Component } from 'react';
+import Card from '@/components/Card/Card';
 
 type Props = { data: ICharacter[] };
 class Result extends Component<Props> {
   render() {
-    return <pre>{JSON.stringify(this.props.data, null, 2)}</pre>;
+    return (
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        {this.props.data.map((character) => (
+          <div key={character.id}>
+            <Card data={character} />
+          </div>
+        ))}
+      </div>
+    );
   }
 }
 export default Result;

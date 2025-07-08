@@ -9,10 +9,8 @@ export const ErrorPage = () => (
         alt="rick and morty"
       />
     </h1>
-
+    <h1 className="text-gray-200 bg-black">Something went wrong</h1>
+    <p className="text-gray-200 bg-black">Try refreshing the page.</p>
     <RefreshButton />
-
-    <h1 className="text-cyan-300">Something went wrong</h1>
-    <p className="text-cyan-300">Try refreshing the page.</p>
   </div>
 );
