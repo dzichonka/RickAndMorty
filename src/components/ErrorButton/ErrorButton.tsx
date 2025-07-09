@@ -1,16 +1,13 @@
-import React from 'react';
+import { Component } from 'react';
 
 type ErrorButtonState = {
   shouldThrow: boolean;
 };
+type ErrorButtonProps = unknown;
 
-class ErrorButton extends React.Component<unknown, ErrorButtonState> {
+class ErrorButton extends Component<ErrorButtonProps> {
   state: ErrorButtonState = {
     shouldThrow: false,
-  };
-
-  handleClick = () => {
-    this.setState({ shouldThrow: true });
   };
 
   render() {
@@ -19,7 +16,12 @@ class ErrorButton extends React.Component<unknown, ErrorButtonState> {
     }
 
     return (
-      <button className="btn absolute top-5 right-5" onClick={this.handleClick}>
+      <button
+        className="btn absolute top-5 right-5"
+        onClick={() => {
+          this.setState({ shouldThrow: true });
+        }}
+      >
         Error
       </button>
     );

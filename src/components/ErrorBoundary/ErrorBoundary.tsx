@@ -1,14 +1,14 @@
 import { Component, type ReactNode } from 'react';
 import { ErrorPage } from '../../pages/ErrorPage/ErrorPage';
 
-type Props = { children: ReactNode };
-type State = { hasError: boolean };
+type ErrorBoundaryProps = { children: ReactNode };
+type ErrorBoundaryState = { hasError: boolean };
 
-class ErrorBoundary extends Component<Props, State> {
-  state = {
+class ErrorBoundary extends Component<ErrorBoundaryProps> {
+  state: ErrorBoundaryState = {
     hasError: false,
   };
-  static getDerivedStateFromError(): State {
+  static getDerivedStateFromError(): ErrorBoundaryState {
     return { hasError: true };
   }
 

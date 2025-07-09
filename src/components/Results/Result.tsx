@@ -2,8 +2,8 @@ import type { ICharacter } from '@/types/api-types';
 import { Component } from 'react';
 import Card from '@/components/Card/Card';
 
-type Props = { data: ICharacter[] };
-class Result extends Component<Props> {
+type ResultProps = { data: ICharacter[] };
+class Result extends Component<ResultProps> {
   render() {
     return (
       <div className="flex flex-wrap items-center justify-between gap-4">

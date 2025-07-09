@@ -1,9 +1,9 @@
-import React from 'react';
+import { Component } from 'react';
 
 type RefreshButtonProps = {
   onClick?: () => void;
 };
-class RefreshButton extends React.Component<RefreshButtonProps> {
+class RefreshButton extends Component<RefreshButtonProps> {
   handleClick = () => {
     if (this.props.onClick) {
       this.props.onClick();
