@@ -5,11 +5,9 @@ type Props = { children: ReactNode };
 type State = { hasError: boolean };
 
 class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
+  state = {
+    hasError: false,
+  };
   static getDerivedStateFromError(): State {
     return { hasError: true };
   }
@@ -18,9 +16,13 @@ class ErrorBoundary extends Component<Props, State> {
     console.error('ErrorBoundary caught an error:', error, errorInfo);
   }
 
+  handleRefresh = () => {
+    this.setState({ hasError: false });
+  };
+
   render() {
     if (this.state.hasError) {
-      return <ErrorPage />;
+      return <ErrorPage onRefresh={this.handleRefresh} />;
     }
     return this.props.children;
   }

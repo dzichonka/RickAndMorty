@@ -35,37 +35,40 @@ class MainPage extends Component {
   };
   render() {
     return (
-      <div className="section">
-        <h1 className="h-[100px] flex items-center justify-center">
-          <img
-            className="h-[100px]"
-            src="./images/rick-and-morty-title.png"
-            alt="rick and morty"
-          />
-        </h1>
-        <Search onSearch={this.handleSearch} />
-        {this.state.loading && <Loader />}
-        {this.state.error && !this.state.loading && (
-          <div>
+      <>
+        <div className="background"></div>
+        <div className="section">
+          <h1 className="h-[100px] flex items-center justify-center">
+            <img
+              className="h-[100px]"
+              src="./images/rick-and-morty-title.png"
+              alt="rick and morty"
+            />
+          </h1>
+          <Search onSearch={this.handleSearch} />
+          {this.state.loading && <Loader />}
+          {this.state.error && !this.state.loading && (
             <div>
-              <h1 className="h-[100px] flex items-center justify-center">
-                <img
-                  className="h-[100px]"
-                  src="./images/rick-and-morty-image.png"
-                  alt="rick and morty"
-                />
-              </h1>
+              <div>
+                <h1 className="h-[100px] flex items-center justify-center">
+                  <img
+                    className="h-[100px]"
+                    src="./images/rick-and-morty-image.png"
+                    alt="rick and morty"
+                  />
+                </h1>
+              </div>
+              <h2 className="text-gray-200 bg-black text-center text-2xl">
+                {this.state.error}
+              </h2>
             </div>
-            <h2 className="text-gray-200 bg-black text-center text-2xl">
-              {this.state.error}
-            </h2>
-          </div>
-        )}
-        {this.state.data && !this.state.loading && !this.state.error && (
-          <Result data={this.state.data} />
-        )}
-        <ErrorButton />
-      </div>
+          )}
+          {this.state.data && !this.state.loading && !this.state.error && (
+            <Result data={this.state.data} />
+          )}
+          <ErrorButton />
+        </div>
+      </>
     );
   }
 }

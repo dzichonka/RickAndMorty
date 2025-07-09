@@ -1,14 +1,19 @@
 import React from 'react';
 
-class RefreshButton extends React.Component {
+type RefreshButtonProps = {
+  onClick?: () => void;
+};
+class RefreshButton extends React.Component<RefreshButtonProps> {
   handleClick = () => {
-    window.location.reload(); // Перезагрузка страницы
+    if (this.props.onClick) {
+      this.props.onClick();
+    }
   };
 
   render() {
     return (
       <button className="btn" onClick={this.handleClick}>
-        Refresh
+        Fix it!
       </button>
     );
   }
