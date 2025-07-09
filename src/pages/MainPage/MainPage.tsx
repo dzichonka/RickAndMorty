@@ -2,17 +2,21 @@ import ErrorButton from '@/components/ErrorButton/ErrorButton';
 import Loader from '@/components/Loader/Loader';
 import Result from '@/components/Results/Result';
 import Search from '@/components/Search/Search';
-import CharacterService from '@/services/CharacterServiece';
+import { characterService } from '@/services/CharacterServiece';
+import type { ICharacter } from '@/types/api-types';
 import { Component } from 'react';
 
+interface IMainPageState {
+  data: ICharacter[] | null;
+  loading: boolean;
+  error: string | null;
+}
 class MainPage extends Component {
-  state = {
+  state: IMainPageState = {
     data: null,
     loading: false,
     error: null,
   };
-
-  characterService = new CharacterService();
 
   componentDidMount() {
     const lastSearch = localStorage.getItem('lastSearch') || '';
@@ -22,7 +26,7 @@ class MainPage extends Component {
   handleSearch = async (search: string): Promise<void> => {
     this.setState({ loading: true, error: null });
     try {
-      const response = await this.characterService.getAllCharacters(
+      const response = await characterService.getAllCharacters(
         1,
         search.trim() ? { name: search } : undefined
       );

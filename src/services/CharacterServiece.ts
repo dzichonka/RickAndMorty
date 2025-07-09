@@ -1,6 +1,6 @@
 import type { IApiResponse, ICharacter } from '../types/api-types';
 
-export default class CharacterService {
+class CharacterService {
   private _apiBase = 'https://rickandmortyapi.com/api/character';
 
   private getResource = async <T>(url: string): Promise<T> => {
@@ -30,3 +30,5 @@ export default class CharacterService {
     );
   };
 }
+
+export const characterService = new CharacterService();
