@@ -13,7 +13,7 @@
     "lint:scss:fix": "stylelint '**/*.{css,scss}' --fix",
     "preview": "vite preview",
     "prepare": "husky .husky",
-    "format": "prettier --write \"**/*\" --ignore-unknown"
+    "format:fix": "prettier --write \"**/*\" --ignore-unknown"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
