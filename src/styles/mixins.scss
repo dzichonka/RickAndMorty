@@ -9,7 +9,6 @@
 }
 
 @mixin btn($w: auto) {
-  font-family: fonts.$font-family;
   display: inline-flex;
   flex-direction: row;
   gap: 0.25rem;
@@ -18,6 +17,7 @@
   width: $w;
   padding: 0.5rem 1rem;
   border: none;
+  font-family: fonts.$font-family;
   color: vars.$color-cyan-300;
   background-color: vars.$color-black;
   outline: none;
