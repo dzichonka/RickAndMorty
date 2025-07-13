@@ -1,12 +1,15 @@
 import type { ICharacter } from '@/types/api-types';
 import { Component } from 'react';
 import Card from '@/components/Card/Card';
+import s from './Result.module.scss';
 
 type ResultProps = { data: ICharacter[] };
 class Result extends Component<ResultProps> {
   render() {
     return (
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div
+        className={`${s.result} section flex flex-wrap items-center justify-between gap-4`}
+      >
         {this.props.data.map((character) => (
           <div key={character.id}>
             <Card data={character} />

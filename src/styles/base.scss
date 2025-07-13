@@ -3,37 +3,37 @@
 @use './mixins.scss' as mixins;
 
 html {
-  width: 100vw;
-  height: 100vh;
   font-size: 16px;
   color: vars.$color-cyan-300;
 }
+
 .background {
   position: fixed;
+  z-index: -1;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-image: url('/images/bg.png');
-  background-size: cover;
-  background-position: center;
   background-attachment: fixed;
-  z-index: -1;
+  background-position: center;
+  background-size: cover;
 }
+
 * {
   scroll-behavior: smooth;
   box-sizing: border-box;
+  margin: 0;
   font-family: fonts.$font-family;
   font-weight: 400;
   font-style: normal;
 }
 
 .container {
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   max-width: 1440px;
-  min-height: 100vh;
-  margin: 0 auto;
 }
 
 .section {

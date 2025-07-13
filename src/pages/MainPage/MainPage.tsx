@@ -41,8 +41,8 @@ class MainPage extends Component {
     return (
       <>
         <div className="background"></div>
-        <div className="section">
-          <h1 className="h-[100px] flex items-center justify-center">
+        <div className="container">
+          <h1 className="section h-[100px] flex items-center justify-center">
             <img
               className="h-[100px]"
               src="./images/rick-and-morty-title.png"
