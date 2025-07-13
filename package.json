@@ -12,8 +12,8 @@
     "lint:scss": "stylelint '**/*.{css,scss}'",
     "lint:scss:fix": "stylelint '**/*.{css,scss}' --fix",
     "preview": "vite preview",
-    "prepare": "husky && chmod ug+x .husky/*",
-    "format:fix": "prettier --write ."
+    "prepare": "husky .husky",
+    "format": "prettier --write \"**/*\" --ignore-unknown"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
@@ -22,6 +22,8 @@
     "react-icons": "^5.5.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.25.0",
     "@types/node": "^24.0.10",
     "@types/react": "^19.1.2",
@@ -37,6 +39,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "postcss": "^8.5.6",
     "prettier": "3.5.3",
     "sass-embedded": "^1.89.2",
