@@ -40,7 +40,7 @@ class MainPage extends Component {
   render() {
     return (
       <>
-        <div className="background"></div>
+        <div className="background" data-testid="background"></div>
         <div className="container">
           <h1 className="section h-[100px] flex items-center justify-center">
             <img

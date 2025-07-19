@@ -32,6 +32,7 @@ class Search extends Component<SearchProps> {
             onChange={(event) => this.setState({ search: event.target.value })}
             className="w-full px-2 py-1 border border-cyan-300 bg-black rounded
               focus:outline-none focus:ring-lime-400 focus:ring"
+            placeholder="Search..."
           />
         </label>
         <button className="btn-icon" type="submit">

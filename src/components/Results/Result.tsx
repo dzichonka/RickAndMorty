@@ -11,7 +11,7 @@ class Result extends Component<ResultProps> {
         className={`${s.result} section flex flex-wrap items-center justify-between gap-4`}
       >
         {this.props.data.map((character) => (
-          <div key={character.id}>
+          <div key={character.id} data-testid="card">
             <Card data={character} />
           </div>
         ))}
