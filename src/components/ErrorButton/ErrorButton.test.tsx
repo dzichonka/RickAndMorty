@@ -4,7 +4,7 @@ import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
 
 describe('ErrorButton', () => {
-  it('renders button and throws error on click', () => {
+  it('should render button and throws error when test button is clicked', () => {
     render(<ErrorButton />);
 
     const button = screen.getByRole('button', { name: /error/i });
