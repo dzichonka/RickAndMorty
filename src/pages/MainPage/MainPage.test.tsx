@@ -39,6 +39,27 @@ describe('MainPage Component', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
+  it('should show loader while loading', async () => {
+    let resolvePromise: (value: {
+      results: ICharacter[];
+      info: any;
+    }) => void = () => {};
+
+    mockedService.getAllCharacters.mockReturnValueOnce(
+      new Promise((resolve) => {
+        resolvePromise = resolve;
+      })
+    );
+
+    render(<MainPage />);
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
+    resolvePromise({ results: mockedData, info: mockedInfo });
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
+    });
+  });
+
   it('should make initial API call on mount', async () => {
     mockedService.getAllCharacters.mockResolvedValueOnce({
       results: mockedData,
