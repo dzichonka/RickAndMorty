@@ -15,7 +15,7 @@ const setup = () => {
   return { mockData };
 };
 
-describe('Search Component', () => {
+describe('Card', () => {
   afterEach(() => {
     cleanup();
   });

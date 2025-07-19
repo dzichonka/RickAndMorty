@@ -10,7 +10,7 @@ const setup = (onSearch = vi.fn()) => {
   return { input, button, onSearch };
 };
 
-describe('Search Component', () => {
+describe('Search', () => {
   afterEach(() => {
     cleanup();
   });

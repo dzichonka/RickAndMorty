@@ -10,7 +10,7 @@ function ErrorComponent(): JSX.Element {
   throw new Error('Test error from component!');
 }
 
-describe('ErrorButton', () => {
+describe('ErrorBoundary', () => {
   afterEach(() => {
     clear();
   });
