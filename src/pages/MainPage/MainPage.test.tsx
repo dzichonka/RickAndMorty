@@ -40,24 +40,44 @@ describe('MainPage Component', () => {
   });
 
   it('should show loader while loading', async () => {
-    let resolvePromise: (value: {
-      results: ICharacter[];
-      info: any;
-    }) => void = () => {};
-
-    mockedService.getAllCharacters.mockReturnValueOnce(
-      new Promise((resolve) => {
-        resolvePromise = resolve;
-      })
-    );
+    mockedService.getAllCharacters.mockResolvedValueOnce({
+      results: mockedData,
+      info: mockedInfo,
+    });
 
     render(<MainPage />);
-    expect(screen.getByTestId('loader')).toBeInTheDocument();
-    resolvePromise({ results: mockedData, info: mockedInfo });
 
-    await waitFor(() => {
-      expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
+    expect(screen.getByTestId('loader')).toBeInTheDocument();
+
+    await screen.findByText('Rick');
+
+    expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText('Failed to fetch characters')
+    ).not.toBeInTheDocument();
+  });
+
+  it('should render empty div if no data', async () => {
+    mockedService.getAllCharacters.mockResolvedValueOnce({
+      results: [],
+      info: mockedInfo,
     });
+    render(<MainPage />);
+    const resultDiv = await screen.findByTestId('result');
+    expect(resultDiv).toBeEmptyDOMElement();
+  });
+
+  it('should throw error if data is null', async () => {
+    mockedService.getAllCharacters.mockResolvedValueOnce(
+      null as unknown as {
+        results: ICharacter[];
+        info: IInfo;
+      }
+    );
+    render(<MainPage />);
+    await expect(
+      screen.findByText('Failed to fetch characters')
+    ).resolves.toBeInTheDocument();
   });
 
   it('should make initial API call on mount', async () => {

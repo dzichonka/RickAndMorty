@@ -13,6 +13,7 @@ const setup = (onSearch = vi.fn()) => {
 describe('Search', () => {
   afterEach(() => {
     cleanup();
+    localStorage.clear();
   });
 
   it('should render search input and search button', () => {
