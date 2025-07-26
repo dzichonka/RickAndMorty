@@ -1,22 +1,20 @@
-import { Component } from 'react';
+//import { Component } from 'react';
 
 type RefreshButtonProps = {
   onClick?: () => void;
 };
-class RefreshButton extends Component<RefreshButtonProps> {
-  handleClick = () => {
-    if (this.props.onClick) {
-      this.props.onClick();
+const RefreshButton = ({ onClick }: RefreshButtonProps) => {
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
     }
   };
 
-  render() {
-    return (
-      <button className="btn" onClick={this.handleClick}>
-        Fix it!
-      </button>
-    );
-  }
-}
+  return (
+    <button className="btn" onClick={handleClick}>
+      Fix it!
+    </button>
+  );
+};
 
 export default RefreshButton;

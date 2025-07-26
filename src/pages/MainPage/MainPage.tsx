@@ -4,76 +4,68 @@ import Result from '@/components/Results/Result';
 import Search from '@/components/Search/Search';
 import { characterService } from '@/services/CharacterServiece';
 import type { ICharacter } from '@/types/api-types';
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 
-interface IMainPageState {
-  data: ICharacter[] | null;
-  loading: boolean;
-  error: string | null;
-}
-class MainPage extends Component {
-  state: IMainPageState = {
-    data: null,
-    loading: false,
-    error: null,
-  };
+const MainPage = () => {
+  const [data, setData] = useState<ICharacter[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  componentDidMount() {
-    const lastSearch = localStorage.getItem('lastSearch') || '';
-    this.handleSearch(lastSearch);
-  }
-
-  handleSearch = async (search: string): Promise<void> => {
-    this.setState({ loading: true, error: null });
+  const handleSearch = async (search: string): Promise<void> => {
+    setLoading(true);
+    setError(null);
     try {
       const response = await characterService.getAllCharacters(
         1,
         search.trim() ? { name: search } : undefined
       );
-      this.setState({ data: response.results });
+      setData(response.results);
     } catch {
-      this.setState({ error: 'Failed to fetch characters' });
+      setError('Failed to fetch characters');
     } finally {
-      this.setState({ loading: false });
+      setLoading(false);
     }
   };
-  render() {
-    return (
-      <>
-        <div className="background" data-testid="background"></div>
-        <div className="container">
-          <h1 className="section h-[100px] flex items-center justify-center">
-            <img
-              className="h-[100px]"
-              src="./images/rick-and-morty-title.png"
-              alt="rick and morty"
-            />
-          </h1>
-          <Search onSearch={this.handleSearch} />
-          {this.state.loading && <Loader />}
-          {this.state.error && !this.state.loading && (
+
+  useEffect(() => {
+    const lastSearch = localStorage.getItem('lastSearch') || '';
+    handleSearch(lastSearch);
+  }, []);
+
+  return (
+    <>
+      <div className="background" data-testid="background"></div>
+      <div className="container">
+        <h1 className="section h-[100px] flex items-center justify-center">
+          <img
+            className="h-[100px]"
+            src="./images/rick-and-morty-title.png"
+            alt="rick and morty"
+          />
+        </h1>
+        <Search onSearch={handleSearch} />
+        {loading && <Loader />}
+        {error && !loading && (
+          <div>
             <div>
-              <div>
-                <h1 className="h-[100px] flex items-center justify-center">
-                  <img
-                    className="h-[100px]"
-                    src="./images/rick-and-morty-image.png"
-                    alt="rick and morty"
-                  />
-                </h1>
-              </div>
-              <h2 className="text-gray-200 bg-black text-center text-2xl">
-                {this.state.error}
-              </h2>
+              <h1 className="h-[100px] flex items-center justify-center">
+                <img
+                  className="h-[100px]"
+                  src="./images/rick-and-morty-image.png"
+                  alt="rick and morty"
+                />
+              </h1>
             </div>
-          )}
-          {this.state.data && !this.state.loading && !this.state.error && (
-            <Result data={this.state.data} />
-          )}
-          <ErrorButton />
-        </div>
-      </>
-    );
-  }
-}
+            <h2 className="text-gray-200 bg-black text-center text-2xl">
+              {error}
+            </h2>
+          </div>
+        )}
+        {data && !loading && !error && <Result data={data} />}
+        <ErrorButton />
+      </div>
+    </>
+  );
+};
+
 export default MainPage;
