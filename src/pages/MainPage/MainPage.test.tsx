@@ -33,9 +33,6 @@ describe('MainPage Component', () => {
 
   it('should renders MainPage', () => {
     render(<MainPage />);
-    const background = screen.getByTestId('background');
-    expect(background).toBeInTheDocument();
-    expect(background).toHaveClass('background');
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 

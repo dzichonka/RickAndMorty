@@ -34,36 +34,34 @@ const MainPage = () => {
 
   return (
     <>
-      <div className="background" data-testid="background"></div>
-      <div className="container">
-        <h1 className="section h-[100px] flex items-center justify-center">
-          <img
-            className="h-[100px]"
-            src="./images/rick-and-morty-title.png"
-            alt="rick and morty"
-          />
-        </h1>
-        <Search onSearch={handleSearch} />
-        {loading && <Loader />}
-        {error && !loading && (
+      <h1 className="section h-[100px] flex items-center justify-center">
+        <img
+          className="h-[100px]"
+          src="./images/rick-and-morty-title.png"
+          alt="rick and morty"
+        />
+      </h1>
+      <Search onSearch={handleSearch} />
+      {loading && <Loader />}
+      {error && !loading && (
+        <div>
           <div>
-            <div>
-              <h1 className="h-[100px] flex items-center justify-center">
-                <img
-                  className="h-[100px]"
-                  src="./images/rick-and-morty-image.png"
-                  alt="rick and morty"
-                />
-              </h1>
-            </div>
-            <h2 className="text-gray-200 bg-black text-center text-2xl">
-              {error}
-            </h2>
+            <h1 className="h-[100px] flex items-center justify-center">
+              <img
+                className="h-[100px]"
+                src="./images/rick-and-morty-image.png"
+                alt="rick and morty"
+              />
+            </h1>
           </div>
-        )}
-        {data && !loading && !error && <Result data={data} />}
-        <ErrorButton />
-      </div>
+          <h2 className="text-gray-200 bg-black text-center text-2xl">
+            {error}
+          </h2>
+        </div>
+      )}
+      {data && !loading && !error && <Result data={data} />}
+      <ErrorButton />
+      {/* </div> */}
     </>
   );
 };
