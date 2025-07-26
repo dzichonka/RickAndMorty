@@ -1,3 +1,4 @@
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 
@@ -5,13 +6,12 @@ type SearchProps = {
   onSearch: (search: string) => void;
 };
 const Search = ({ onSearch }: SearchProps) => {
-  const [search, setSearch] = useState(
-    localStorage.getItem('lastSearch') || ''
-  );
+  const [LS, setLS] = useLocalStorage<string>('lastSearch', '');
+  const [search, setSearch] = useState(LS || '');
 
   const handleSearch = (event: React.FormEvent): void => {
     event?.preventDefault();
-    localStorage.setItem('lastSearch', search.trim());
+    setLS(search.trim());
     onSearch(search.trim());
   };
 

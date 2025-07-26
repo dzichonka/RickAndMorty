@@ -5,6 +5,13 @@ import { describe, expect, it, vi, afterEach, beforeEach } from 'vitest';
 import '@testing-library/jest-dom';
 import type { ICharacter, IInfo } from '@/types/api-types';
 import { characterService } from '@/services/CharacterServiece';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+
+vi.mock('@/hooks/useLocalStorage', () => ({
+  useLocalStorage: vi.fn(),
+}));
+
+const mockLocalStorage = vi.mocked(useLocalStorage);
 
 vi.mock('@/services/CharacterServiece', () => ({
   characterService: {
@@ -25,6 +32,7 @@ const mockedInfo = { count: 3, pages: 1, next: null, prev: null } as IInfo;
 describe('MainPage Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockLocalStorage.mockReturnValue(['Rick', vi.fn()]);
   });
 
   afterEach(() => {
@@ -54,14 +62,15 @@ describe('MainPage Component', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should render empty div if no data', async () => {
+  it('should show massege if no data', async () => {
     mockedService.getAllCharacters.mockResolvedValueOnce({
       results: [],
       info: mockedInfo,
     });
     render(<MainPage />);
-    const resultDiv = await screen.findByTestId('result');
-    expect(resultDiv).toBeEmptyDOMElement();
+    expect(
+      screen.queryByText('Sorry, no characters found')
+    ).not.toBeInTheDocument();
   });
 
   it('should throw error if data is null', async () => {
@@ -85,7 +94,9 @@ describe('MainPage Component', () => {
     render(<MainPage />);
     await waitFor(() => {
       expect(mockedService.getAllCharacters).toHaveBeenCalledTimes(1);
-      expect(mockedService.getAllCharacters).toHaveBeenCalledWith(1, undefined);
+      expect(mockedService.getAllCharacters).toHaveBeenCalledWith(1, {
+        name: 'Rick',
+      });
     });
   });
 

@@ -1,7 +1,8 @@
-import ErrorButton from '@/components/ErrorButton/ErrorButton';
+//import ErrorButton from '@/components/ErrorButton/ErrorButton';
 import Loader from '@/components/Loader/Loader';
 import Result from '@/components/Results/Result';
 import Search from '@/components/Search/Search';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { characterService } from '@/services/CharacterServiece';
 import type { ICharacter } from '@/types/api-types';
 import { useState, useEffect } from 'react';
@@ -27,10 +28,13 @@ const MainPage = () => {
     }
   };
 
+  const [search] = useLocalStorage<string>('lastSearch', '');
+
   useEffect(() => {
-    const lastSearch = localStorage.getItem('lastSearch') || '';
-    handleSearch(lastSearch);
-  }, []);
+    if (search) {
+      handleSearch(search);
+    }
+  }, [search]);
 
   return (
     <>
@@ -59,9 +63,11 @@ const MainPage = () => {
           </h2>
         </div>
       )}
-      {data && !loading && !error && <Result data={data} />}
-      <ErrorButton />
-      {/* </div> */}
+      {data && data.length > 0 && !loading && !error && <Result data={data} />}
+      {data && data.length === 0 && !loading && !error && (
+        <h2>Sorry, no characters found</h2>
+      )}
+      {}
     </>
   );
 };
