@@ -1,4 +1,4 @@
-import ErrorButton from '@/components/ErrorButton/ErrorButton';
+import { Details } from '@/components/Details/Details';
 import Loader from '@/components/Loader/Loader';
 import { Pagination } from '@/components/Pagination/Pagination';
 import Result from '@/components/Results/Result';
@@ -56,7 +56,6 @@ const MainPage = () => {
 
   return (
     <>
-      <ErrorButton />
       <h1 className="section h-[100px] flex items-center justify-center">
         <img
           className="h-[100px]"
@@ -83,11 +82,14 @@ const MainPage = () => {
         </div>
       )}
       {data && data.results.length > 0 && !loading && !error && (
-        <>
-          <Pagination info={data.info} />
-          <Result data={data} />
-          <Pagination info={data.info} />
-        </>
+        <div className="flex flex-row">
+          <div data-testid="right">
+            <Pagination info={data.info} />
+            <Result data={data} />
+            <Pagination info={data.info} />
+          </div>
+          {searchParams.get('details') && <Details />}
+        </div>
       )}
       {data && data.results.length === 0 && !loading && !error && (
         <h2>Sorry, no characters found</h2>

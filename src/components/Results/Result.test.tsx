@@ -3,6 +3,7 @@ import Result from './Result';
 import { describe, expect, it, afterEach } from 'vitest';
 import '@testing-library/jest-dom';
 import type { IApiResponse, ICharacter } from '@/types/api-types';
+import { MemoryRouter } from 'react-router-dom';
 
 const setup = () => {
   const mockData: IApiResponse<ICharacter> = {
@@ -14,7 +15,11 @@ const setup = () => {
     ],
   } as IApiResponse<ICharacter>;
 
-  render(<Result data={mockData} />);
+  render(
+    <MemoryRouter>
+      <Result data={mockData} />
+    </MemoryRouter>
+  );
   const cards = screen.getAllByTestId('card');
   return { cards, mockData };
 };
