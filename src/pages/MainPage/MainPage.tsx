@@ -1,4 +1,3 @@
-import { Details } from '@/components/Details/Details';
 import Loader from '@/components/Loader/Loader';
 import { Pagination } from '@/components/Pagination/Pagination';
 import Result from '@/components/Results/Result';
@@ -7,7 +6,7 @@ import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { characterService } from '@/services/CharacterServiece';
 import type { IApiResponse, ICharacter } from '@/types/api-types';
 import { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
 const MainPage = () => {
   const [data, setData] = useState<IApiResponse<ICharacter> | null>(null);
@@ -88,7 +87,7 @@ const MainPage = () => {
             <Result data={data} />
             <Pagination info={data.info} />
           </div>
-          {searchParams.get('details') && <Details />}
+          {searchParams.get('details') && <Outlet />}
         </div>
       )}
       {data && data.results.length === 0 && !loading && !error && (

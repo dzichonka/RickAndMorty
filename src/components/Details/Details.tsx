@@ -40,7 +40,7 @@ export const Details = () => {
   return (
     <div
       data-testid="details"
-      className="relative min-w-[15rem] bg-black/70 rounded "
+      className="relative min-w-[15rem] bg-black/70 rounded p-4"
     >
       {loading && <Loader />}
       {error && !loading && (
@@ -58,7 +58,7 @@ export const Details = () => {
           >
             <IoMdCloseCircleOutline />
           </button>
-          <div className="pt-6 flex flex-col items-start justify-start gap-4 text-start">
+          <div className="pt-2 flex flex-col items-start justify-start gap-4 text-start">
             <div className="self-center">{data.name}</div>
             <img
               className="h-full w-full display-block object-cover rounded"

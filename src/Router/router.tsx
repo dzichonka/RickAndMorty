@@ -4,6 +4,7 @@ import MainPage from '@/pages/MainPage/MainPage';
 import AboutPage from '@/pages/AboutPage/AboutPage';
 import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage';
 import { ErrorPage } from '@/pages/ErrorPage/ErrorPage';
+import { Details } from '@/components/Details/Details';
 
 export const router = createBrowserRouter([
   {
@@ -12,8 +13,13 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
         element: <MainPage />,
+        children: [
+          {
+            path: '/',
+            element: <Details />,
+          },
+        ],
       },
       {
         path: 'about',
