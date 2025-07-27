@@ -1,43 +1,71 @@
-//import ErrorButton from '@/components/ErrorButton/ErrorButton';
+import ErrorButton from '@/components/ErrorButton/ErrorButton';
 import Loader from '@/components/Loader/Loader';
+import { Pagination } from '@/components/Pagination/Pagination';
 import Result from '@/components/Results/Result';
 import Search from '@/components/Search/Search';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { characterService } from '@/services/CharacterServiece';
-import type { ICharacter } from '@/types/api-types';
+import type { IApiResponse, ICharacter } from '@/types/api-types';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 const MainPage = () => {
-  const [data, setData] = useState<ICharacter[] | null>(null);
+  const [data, setData] = useState<IApiResponse<ICharacter> | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleSearch = async (search: string): Promise<void> => {
+  const page = searchParams.get('page') ?? '1';
+  const [LS, setLS] = useLocalStorage<string>('lastSearch', '');
+  const name = searchParams.get('name') ?? LS;
+
+  useEffect(() => {
+    if (!searchParams.get('page')) {
+      searchParams.set('page', '1');
+      setSearchParams(searchParams);
+    }
+  }, [searchParams, setSearchParams]);
+
+  const handleSearch = async (
+    search: string,
+    pageNumber: number
+  ): Promise<void> => {
     setLoading(true);
     setError(null);
+    setLS(search);
+
+    //const numOfPage = Number(page);
     try {
       const response = await characterService.getAllCharacters(
-        1,
+        pageNumber,
         search.trim() ? { name: search } : undefined
       );
-      setData(response.results);
+      setData(response);
     } catch {
       setError('Failed to fetch characters');
     } finally {
       setLoading(false);
     }
   };
+  const onSubmit = (search: string): void => {
+    setSearchParams({ page: '1', name: search });
 
-  const [search] = useLocalStorage<string>('lastSearch', '');
+    //handleSearch(search);
+  };
 
+  //const [search] = useLocalStorage<string>('lastSearch', '');
   useEffect(() => {
-    if (search) {
-      handleSearch(search);
-    }
-  }, [search]);
+    handleSearch(name, Number(page));
+  }, [name, page]);
+  // useEffect(() => {
+  //   if (search) {
+  //     handleSearch(search);
+  //   }
+  // }, [search, page]);
 
   return (
     <>
+      <ErrorButton />
       <h1 className="section h-[100px] flex items-center justify-center">
         <img
           className="h-[100px]"
@@ -45,7 +73,7 @@ const MainPage = () => {
           alt="rick and morty"
         />
       </h1>
-      <Search onSearch={handleSearch} />
+      <Search onSearch={onSubmit} />
       {loading && <Loader />}
       {error && !loading && (
         <div>
@@ -63,11 +91,21 @@ const MainPage = () => {
           </h2>
         </div>
       )}
-      {data && data.length > 0 && !loading && !error && <Result data={data} />}
-      {data && data.length === 0 && !loading && !error && (
+      {data && data.results.length > 0 && !loading && !error && (
+        <>
+          <Pagination info={data.info} />
+          <Result data={data} />
+          <Pagination info={data.info} />
+        </>
+      )}
+      {data && data.results.length === 0 && !loading && !error && (
         <h2>Sorry, no characters found</h2>
       )}
-      {}
+      {!data && !loading && !error && (
+        <h2 className="text-center text-gray-400">
+          You can search for characters
+        </h2>
+      )}
     </>
   );
 };

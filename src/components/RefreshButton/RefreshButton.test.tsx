@@ -1,7 +1,8 @@
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import RefreshButton from './RefreshButton';
-import { describe, expect, it, vi, afterAll } from 'vitest';
+import { describe, expect, it, afterAll } from 'vitest';
 import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('RefreshButton', () => {
   afterAll(() => {
@@ -9,11 +10,12 @@ describe('RefreshButton', () => {
   });
 
   it('should renders refresh button', () => {
-    const mockClick = vi.fn();
-    render(<RefreshButton onClick={mockClick} />);
-    const button = screen.getByRole('button', { name: /Fix it!/i });
+    render(
+      <MemoryRouter>
+        <RefreshButton />
+      </MemoryRouter>
+    );
+    const button = screen.getByRole('button', { name: /fix it/i });
     expect(button).toBeInTheDocument();
-    fireEvent.click(button);
-    expect(mockClick).toHaveBeenCalled();
   });
 });

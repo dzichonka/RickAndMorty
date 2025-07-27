@@ -1,19 +1,10 @@
-//import { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-type RefreshButtonProps = {
-  onClick?: () => void;
-};
-const RefreshButton = ({ onClick }: RefreshButtonProps) => {
-  const handleClick = () => {
-    if (onClick) {
-      onClick();
-    }
-  };
-
+const RefreshButton = () => {
   return (
-    <button className="btn" onClick={handleClick}>
+    <Link role="button" className="btn" to="/">
       Fix it!
-    </button>
+    </Link>
   );
 };
 

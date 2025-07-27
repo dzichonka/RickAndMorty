@@ -1,9 +1,5 @@
 import RefreshButton from '@/components/RefreshButton/RefreshButton';
-
-type ErrorPageProps = {
-  onRefresh: () => void;
-};
-export const ErrorPage = ({ onRefresh }: ErrorPageProps) => (
+export const ErrorPage = () => (
   <>
     <div className="background"></div>
     <div className="section flex flex-col items-center justify-center gap-4">
@@ -15,7 +11,7 @@ export const ErrorPage = ({ onRefresh }: ErrorPageProps) => (
         />
       </h1>
       <h1 className="text-gray-200 bg-black">error boundary caught an error</h1>
-      <RefreshButton onClick={onRefresh} />
+      <RefreshButton />
     </div>
   </>
 );

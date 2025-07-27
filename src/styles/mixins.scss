@@ -31,7 +31,7 @@
     cursor: pointer;
     transition: all 0.5s ease;
 
-    &:hover {
+    &:hover:not(:disabled) {
       scale: 1.05;
       color: vars.$color-lime-300;
     }
@@ -61,7 +61,7 @@
     cursor: pointer;
     transition: all 0.5s ease;
 
-    &:hover {
+    &:hover:not(:disabled) {
       scale: 1.2;
       color: vars.$color-lime-300;
     }
@@ -88,7 +88,7 @@
     cursor: pointer;
     transition: all 0.5s ease;
 
-    &:hover {
+    &:hover:not(:disabled) {
       scale: 1.1;
     }
   }

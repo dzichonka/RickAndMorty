@@ -3,11 +3,13 @@ import App from '@/components/App/App';
 import MainPage from '@/pages/MainPage/MainPage';
 import AboutPage from '@/pages/AboutPage/AboutPage';
 import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage';
+import { ErrorPage } from '@/pages/ErrorPage/ErrorPage';
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,

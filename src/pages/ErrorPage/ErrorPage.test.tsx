@@ -1,7 +1,8 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import { ErrorPage } from './ErrorPage';
-import { describe, expect, it, vi, afterAll } from 'vitest';
+import { describe, expect, it, afterAll } from 'vitest';
 import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 describe('ErrorPage', () => {
   afterAll(() => {
@@ -9,11 +10,12 @@ describe('ErrorPage', () => {
   });
 
   it('should renders ErrorPage', () => {
-    const mochRefresh = vi.fn();
-    render(<ErrorPage onRefresh={mochRefresh} />);
-    expect(
-      screen.getByRole('button', { name: /Fix it!/i })
-    ).toBeInTheDocument();
+    render(
+      <MemoryRouter>
+        <ErrorPage />
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('button', { name: /fix it/i })).toBeInTheDocument();
     expect(
       screen.getByText('error boundary caught an error')
     ).toBeInTheDocument();

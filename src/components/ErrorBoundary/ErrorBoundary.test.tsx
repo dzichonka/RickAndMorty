@@ -27,9 +27,7 @@ describe('ErrorBoundary', () => {
       screen.getByText('error boundary caught an error')
     ).toBeInTheDocument();
 
-    expect(
-      screen.getByRole('button', { name: /Fix it!/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /fix it/i })).toBeInTheDocument();
 
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
 
