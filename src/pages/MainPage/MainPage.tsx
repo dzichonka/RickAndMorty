@@ -82,7 +82,7 @@ const MainPage = () => {
         </div>
       )}
       {data && data.results.length > 0 && !loading && !error && (
-        <div className="flex flex-row">
+        <div className="section flex flex-row">
           <div data-testid="right">
             <Pagination info={data.info} />
             <Result data={data} />

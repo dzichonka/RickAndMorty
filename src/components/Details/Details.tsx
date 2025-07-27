@@ -3,6 +3,7 @@ import { useEffect, useState, type JSX } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import type { ICharacter } from '@/types/api-types';
+import { IoMdCloseCircleOutline } from 'react-icons/io';
 
 export const Details = (): JSX.Element => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -37,7 +38,10 @@ export const Details = (): JSX.Element => {
   };
 
   return (
-    <div data-testid="details" className="details">
+    <div
+      data-testid="details"
+      className="relative min-w-[15rem] bg-black/70 rounded "
+    >
       {loading && <Loader />}
       {error && !loading && (
         <div>
@@ -48,12 +52,25 @@ export const Details = (): JSX.Element => {
       )}
       {data && !loading && !error && (
         <>
-          <div>
-            <div className="">{data.name}</div>
-          </div>
-          <button className="btn" onClick={handleClose}>
-            Close
+          <button
+            className="btn-icon absolute top-0 right-0"
+            onClick={handleClose}
+          >
+            <IoMdCloseCircleOutline />
           </button>
+          <div className="pt-6 flex flex-col items-start justify-start gap-4 text-start">
+            <div className="self-center">{data.name}</div>
+            <img
+              className="h-full w-full display-block object-cover rounded"
+              src={data.image}
+              alt={data.name}
+            />
+            <div>location: {data.location.name}</div>
+            <div>status: {data.status}</div>
+            <div>species: {data.species}</div>
+            <div>gender: {data.gender}</div>
+            <div>origin: {data.origin.name}</div>
+          </div>
         </>
       )}
       {!data && !loading && !error && (

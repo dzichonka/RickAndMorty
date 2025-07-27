@@ -16,17 +16,30 @@ const Result = ({ data }: ResultProps): React.JSX.Element => {
     setSearchParams(newParams);
   };
 
+  const handleOutsideClick = (event: React.MouseEvent) => {
+    const target = event.target as HTMLElement;
+    if (target.closest('[data-testid="card"]')) return;
+
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.delete('details');
+    setSearchParams(newParams);
+  };
+
   return (
     <div
       data-testid="result"
-      className={`${s.result} section flex flex-wrap items-center justify-center gap-4`}
+      className={`${s.result} result section flex flex-wrap items-center justify-center gap-4`}
+      onClick={(event) => handleOutsideClick(event)}
     >
       <div className="flex flex-wrap items-center justify-between gap-4">
         {results.map((character) => (
           <div
             key={character.id}
             data-testid="card"
-            onClick={() => handleCardClick(character.id)}
+            onClick={(event) => {
+              event.stopPropagation();
+              handleCardClick(character.id);
+            }}
           >
             <Card data={character} />
           </div>
