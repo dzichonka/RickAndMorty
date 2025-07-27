@@ -5,6 +5,7 @@ import '@testing-library/jest-dom';
 import { afterEach } from 'node:test';
 import { clear } from 'console';
 import type { JSX } from 'react';
+import { MemoryRouter } from 'react-router-dom';
 
 function ErrorComponent(): JSX.Element {
   throw new Error('Test error from component!');
@@ -18,9 +19,11 @@ describe('ErrorBoundary', () => {
   it('should catches and handles errors and displays fallback UI when error occurs', () => {
     const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
     render(
-      <ErrorBoundary>
-        <ErrorComponent />
-      </ErrorBoundary>
+      <MemoryRouter>
+        <ErrorBoundary>
+          <ErrorComponent />
+        </ErrorBoundary>
+      </MemoryRouter>
     );
 
     expect(

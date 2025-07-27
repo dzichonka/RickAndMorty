@@ -1,11 +1,11 @@
 import { characterService } from '@/services/CharacterServiece';
-import { useEffect, useState, type JSX } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import type { ICharacter } from '@/types/api-types';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 
-export const Details = (): JSX.Element => {
+export const Details = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const detailsId = searchParams.get('details');
   const [data, setData] = useState<ICharacter | null>(null);

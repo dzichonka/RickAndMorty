@@ -1,6 +1,5 @@
 import { Component, type ReactNode } from 'react';
 import { ErrorPage } from '@/pages/ErrorPage/ErrorPage';
-import { MemoryRouter } from 'react-router-dom';
 
 type ErrorBoundaryProps = { children: ReactNode };
 type ErrorBoundaryState = { hasError: boolean };
@@ -23,11 +22,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps> {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <MemoryRouter>
-          <ErrorPage />
-        </MemoryRouter>
-      );
+      return <ErrorPage />;
     }
     return this.props.children;
   }
