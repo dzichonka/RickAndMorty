@@ -9,7 +9,8 @@ const AboutPage = () => {
         />
       </h1>
       <div className="section flex flex-col items-center justify-center bg-black/70">
-        404 – Page Not Found
+        <p>404</p>
+        <p>Page not found</p>
       </div>
     </>
   );

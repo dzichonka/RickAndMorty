@@ -19,7 +19,8 @@ const AboutPage = () => {
           and a sprinkle of ADHD-fueled hyperfocus.
         </p>
         <p>
-          Multiverse can wait — right now I’m navigating routes, not realities.
+          Multiverse can wait — right now I&apos;m navigating routes, not
+          realities.
         </p>
         <p>If you&apos;re from a dimension where helping each other is cool:</p>
         <div>

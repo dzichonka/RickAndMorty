@@ -34,7 +34,6 @@ const MainPage = () => {
     setError(null);
     setLS(search);
 
-    //const numOfPage = Number(page);
     try {
       const response = await characterService.getAllCharacters(
         pageNumber,
@@ -49,19 +48,11 @@ const MainPage = () => {
   };
   const onSubmit = (search: string): void => {
     setSearchParams({ page: '1', name: search });
-
-    //handleSearch(search);
   };
 
-  //const [search] = useLocalStorage<string>('lastSearch', '');
   useEffect(() => {
     handleSearch(name, Number(page));
   }, [name, page]);
-  // useEffect(() => {
-  //   if (search) {
-  //     handleSearch(search);
-  //   }
-  // }, [search, page]);
 
   return (
     <>
