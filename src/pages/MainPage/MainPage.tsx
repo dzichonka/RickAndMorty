@@ -8,6 +8,7 @@ import type { IApiResponse, ICharacter } from '@/types/api-types';
 import { useState, useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import s from './MainPage.module.scss';
+import { SelectedItems } from '@/components/SelectedItems/SelectedItems';
 
 const MainPage = () => {
   const [data, setData] = useState<IApiResponse<ICharacter> | null>(null);
@@ -56,6 +57,7 @@ const MainPage = () => {
 
   return (
     <>
+      <SelectedItems />
       <h1 className="h-[100px] flex items-center justify-center">
         <img
           className="h-[100px]"
@@ -82,7 +84,7 @@ const MainPage = () => {
         </div>
       )}
       {data && data.results.length > 0 && !loading && !error && (
-        <div className={`flex flex-row gap-4 ${s.result}`}>
+        <div className={`flex flex-row gap-4 py-4 ${s.result}`}>
           <div
             data-testid="right"
             className="flex flex-col gap-4 items-center justify-center"
