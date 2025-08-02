@@ -1,15 +1,27 @@
 import type { ICharacter } from '@/types/api-types';
+import { useCardsStore } from '@/store/useCardsStore';
+import { GrRadial } from 'react-icons/gr';
+import { GrRadialSelected } from 'react-icons/gr';
 
 type CardProps = { data: ICharacter };
 
 const Card = ({ data }: CardProps): React.JSX.Element => {
-  const { image, name, status, species } = data;
+  const { id, image, name, status, species } = data;
+
+  const toggleId = useCardsStore((state) => state.toggleId);
+  const isSelected = useCardsStore((state) => state.isSelected(id));
 
   return (
     <div
-      className="flex flex-col items-center justify-start gap-3 bg-[var(--bg-color)]/50 w-[200px] h-[250px] p-4 rounded
-      hover:bg-[var(--bg-color)]/90 hover:scale-101 transition-all duration-300"
+      className="relative z-10 flex flex-col items-center justify-start gap-3 bg-[var(--bg-color)]/50 w-[200px] h-[250px] p-4 rounded
+      hover:bg-[var(--bg-color)]/90 transition-all duration-300"
     >
+      <button
+        onClick={() => toggleId(id)}
+        className="btn-icon absolute top-0 right-0"
+      >
+        {isSelected ? <GrRadialSelected /> : <GrRadial />}
+      </button>
       <div className="h-[150px] overflow-hidden rounded">
         <img
           className="h-full w-full display-block object-cover"

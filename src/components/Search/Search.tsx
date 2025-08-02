@@ -22,7 +22,7 @@ const Search = ({ onSearch }: SearchProps) => {
 
   return (
     <form
-      className="flex flex-row items-center justify-center"
+      className="flex flex-row items-center justify-center gap-2 relative z-10"
       onSubmit={handleSearch}
     >
       <label htmlFor="search">

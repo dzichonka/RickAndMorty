@@ -23,7 +23,7 @@ export const Pagination = ({ info }: PaginationProps): React.JSX.Element => {
 
   return (
     <div
-      className="flex items-center justify-center gap-4 bg-[var(--bg-color)]/50 shadow-[0_0_25px_30px_var(--bg-color)]/50 rounded-ful w-fit text-center"
+      className="flex items-center justify-center gap-4 bg-[var(--bg-color)]/60 shadow-[0_0_25px_30px_var(--bg-color)]/60 rounded-ful w-fit text-center p-4"
       data-testid="pagination"
     >
       <button
