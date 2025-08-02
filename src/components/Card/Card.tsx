@@ -8,7 +8,7 @@ type CardProps = { data: ICharacter };
 const Card = ({ data }: CardProps): React.JSX.Element => {
   const { id, image, name, status, species } = data;
 
-  const toggleId = useCardsStore((state) => state.toggleId);
+  const toggleItem = useCardsStore((state) => state.toggleItem);
   const isSelected = useCardsStore((state) => state.isSelected(id));
 
   return (
@@ -17,7 +17,7 @@ const Card = ({ data }: CardProps): React.JSX.Element => {
       hover:bg-[var(--bg-color)]/90 transition-all duration-300"
     >
       <button
-        onClick={() => toggleId(id)}
+        onClick={() => toggleItem(data)}
         className="btn-icon absolute top-0 right-0"
       >
         {isSelected ? <GrRadialSelected /> : <GrRadial />}

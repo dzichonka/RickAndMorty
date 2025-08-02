@@ -1,22 +1,29 @@
+import type { ICharacter } from '@/types/api-types';
 import { create } from 'zustand';
 
 interface CardState {
-  selectedIds: number[];
-  toggleId: (id: number) => void;
+  selectedItems: ICharacter[];
+  toggleItem: (item: ICharacter) => void;
   isSelected: (id: number) => boolean;
   reset: () => void;
 }
 
 export const useCardsStore = create<CardState>((set, get) => ({
-  selectedIds: [],
-  toggleId: (id) => {
-    const { selectedIds } = get();
-    set({
-      selectedIds: selectedIds.includes(id)
-        ? selectedIds.filter((i) => i !== id)
-        : [...selectedIds, id],
-    });
+  selectedItems: [],
+  toggleItem: (item) => {
+    const selectedItems = get().selectedItems;
+    const isAlreadySelected = selectedItems.some((i) => i.id === item.id);
+
+    if (isAlreadySelected) {
+      set({
+        selectedItems: selectedItems.filter((i) => i.id !== item.id),
+      });
+    } else {
+      set({
+        selectedItems: [...selectedItems, item],
+      });
+    }
   },
-  isSelected: (id) => get().selectedIds.includes(id),
-  reset: () => set({ selectedIds: [] }),
+  isSelected: (id) => get().selectedItems.some((i) => i.id === id),
+  reset: () => set({ selectedItems: [] }),
 }));
