@@ -1,25 +1,25 @@
 const AboutPage = () => {
   return (
     <>
-      <h1 className="section h-[100px] flex items-center justify-center">
+      <h1 className="h-[100px] flex items-center justify-center">
         <img
           className="h-[100px]"
           src="./images/rick-and-morty-title.png"
           alt="rick and morty"
         />
       </h1>
-      <div className="section flex flex-col items-center justify-center bg-black/70">
-        <p>Hi there, Earthling (or whatever dimension you&apos;re from).</p>
+      <div className="flex flex-col items-center justify-center bg-[var(--bg-color)]/50 shadow-[0_0_20px_var(--bg-color)] rounded">
+        <p>Hi there, Earthling (or whatever dimension you&apos;re from)!</p>
         <p>
-          My name is Anna - a Rick-variant from a dimension where I temporarily
+          My name is Anna, a Rick-femail from a dimension where I temporarily
           put down my portal gun and picked up React.
         </p>
         <p>
           I built this SPA with React, caffeine, occasional existential crises,
-          and a sprinkle of ADHD-fueled hyperfocus.
+          and ADHD.
         </p>
         <p>
-          Multiverse can wait — right now I&apos;m navigating routes, not
+          Multiverse can wait. Right now I&apos;m navigating routes, not
           realities.
         </p>
         <p>If you&apos;re from a dimension where helping each other is cool:</p>
@@ -32,8 +32,8 @@ const AboutPage = () => {
             className="link"
           >
             LinkedIn
-          </a>{' '}
-          — no clones, please
+          </a>
+          (no clones, please)
         </div>
         <div>
           I&apos;m currently in the middle of the
@@ -43,9 +43,9 @@ const AboutPage = () => {
             rel="noopener noreferrer"
             className="link"
           >
-            RS School React Course
+            RS School React Course.
           </a>
-          — it&apos;s like space bootcamp but for frontend devs
+          It&apos;s like space bootcamp but for frontend devs
         </div>
       </div>
     </>

@@ -7,6 +7,7 @@ import { characterService } from '@/services/CharacterServiece';
 import type { IApiResponse, ICharacter } from '@/types/api-types';
 import { useState, useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
+import s from './MainPage.module.scss';
 
 const MainPage = () => {
   const [data, setData] = useState<IApiResponse<ICharacter> | null>(null);
@@ -55,7 +56,7 @@ const MainPage = () => {
 
   return (
     <>
-      <h1 className="section h-[100px] flex items-center justify-center">
+      <h1 className="h-[100px] flex items-center justify-center">
         <img
           className="h-[100px]"
           src="./images/rick-and-morty-title.png"
@@ -81,8 +82,11 @@ const MainPage = () => {
         </div>
       )}
       {data && data.results.length > 0 && !loading && !error && (
-        <div className="section flex flex-row">
-          <div data-testid="right">
+        <div className={`flex flex-row gap-4 ${s.result}`}>
+          <div
+            data-testid="right"
+            className="flex flex-col gap-4 items-center justify-center"
+          >
             <Pagination info={data.info} />
             <Result data={data} />
             <Pagination info={data.info} />
@@ -94,7 +98,7 @@ const MainPage = () => {
         <h2>Sorry, no characters found</h2>
       )}
       {!data && !loading && !error && (
-        <h2 className="text-center text-gray-400">
+        <h2 className="text-center text-[var(--second-color)]/80">
           You can search for characters
         </h2>
       )}

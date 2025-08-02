@@ -1,0 +1,13 @@
+@use './variables.scss' as vars;
+
+.light-theme {
+  --main-color: #{vars.$color-black};
+  --bg-color: #{vars.$color-white};
+  --second-color: #{vars.$color-cyan-800};
+}
+
+.dark-theme {
+  --main-color: #{vars.$color-cyan-300};
+  --bg-color: #{vars.$color-black};
+  --second-color: #{vars.$color-lime-300};
+}

@@ -7,8 +7,8 @@ const Card = ({ data }: CardProps): React.JSX.Element => {
 
   return (
     <div
-      className="flex flex-col items-center justify-start gap-3 bg-black/65 w-[200px] h-[250px] p-4 rounded
-      hover:bg-black/100 hover:scale-101 transition-all duration-300"
+      className="flex flex-col items-center justify-start gap-3 bg-[var(--bg-color)]/50 w-[200px] h-[250px] p-4 rounded
+      hover:bg-[var(--bg-color)]/90 hover:scale-101 transition-all duration-300"
     >
       <div className="h-[150px] overflow-hidden rounded">
         <img
@@ -18,7 +18,7 @@ const Card = ({ data }: CardProps): React.JSX.Element => {
         />
       </div>
       <p className="text-center">{name}</p>
-      <p className="text-center text-sm text-gray-500">
+      <p className="text-center text-sm text-[var(--second-color)]">
         {status} - {species}
       </p>
     </div>

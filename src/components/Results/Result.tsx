@@ -28,10 +28,12 @@ const Result = ({ data }: ResultProps): React.JSX.Element => {
   return (
     <div
       data-testid="result"
-      className={`${s.result} result section flex flex-wrap items-center justify-center gap-4`}
+      className={`${s.result} flex flex-wrap items-center justify-center gap-4`}
       onClick={(event) => handleOutsideClick(event)}
     >
-      <div className="flex flex-wrap items-center justify-between gap-4">
+      <div
+        className={`flex flex-wrap items-center justify-between gap-4 ${s.list}`}
+      >
         {results.map((character) => (
           <div
             key={character.id}

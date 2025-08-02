@@ -1,10 +1,26 @@
 @use './fonts.scss' as fonts;
 @use './variables.scss' as vars;
 @use './mixins.scss' as mixins;
+@import 'themes';
 
 html {
   font-size: 16px;
+}
+
+.light-theme {
+  color: vars.$color-black;
+
+  .background {
+    background-image: url('/images/bg-light.png');
+  }
+}
+
+.dark-theme {
   color: vars.$color-cyan-300;
+
+  .background {
+    background-image: url('/images/bg-dark.png');
+  }
 }
 
 .background {
@@ -14,7 +30,6 @@ html {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('/images/bg.png');
   background-attachment: fixed;
   background-position: center;
   background-size: cover;

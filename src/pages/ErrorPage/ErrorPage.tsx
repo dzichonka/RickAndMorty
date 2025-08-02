@@ -2,7 +2,7 @@ import RefreshButton from '@/components/RefreshButton/RefreshButton';
 export const ErrorPage = () => (
   <>
     <div className="background"></div>
-    <div className="section flex flex-col items-center justify-center gap-4">
+    <div className="flex flex-col items-center justify-center gap-4">
       <h1 className="h-[100px] flex items-center justify-center">
         <img
           className="h-[100px]"
