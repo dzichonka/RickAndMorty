@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-type DownloadLinkProps = {
+export type DownloadLinkProps = {
   data: string;
   filename: string;
   onDownloaded?: () => void;

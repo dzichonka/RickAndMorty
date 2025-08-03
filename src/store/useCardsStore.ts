@@ -1,7 +1,7 @@
 import type { ICharacter } from '@/types/api-types';
 import { create } from 'zustand';
 
-interface CardState {
+export interface CardState {
   selectedItems: ICharacter[];
   toggleItem: (item: ICharacter) => void;
   isSelected: (id: number) => boolean;

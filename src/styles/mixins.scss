@@ -21,7 +21,7 @@
   color: var(--main-color);
   background-color: var(--bg-color);
   outline: none;
-  box-shadow: 0 0 20px 5px var(--bg-color);
+  box-shadow: 0 0 8px 5px var(--bg-color);
 
   &:disabled {
     cursor: default;

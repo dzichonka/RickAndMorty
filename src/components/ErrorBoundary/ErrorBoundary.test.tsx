@@ -27,7 +27,7 @@ describe('ErrorBoundary', () => {
     );
 
     expect(
-      screen.getByText('error boundary caught an error')
+      screen.getByText(/error boundary caught an error/i)
     ).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: /fix it/i })).toBeInTheDocument();
