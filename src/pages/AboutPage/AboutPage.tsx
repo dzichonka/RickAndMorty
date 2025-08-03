@@ -8,7 +8,7 @@ const AboutPage = () => {
           alt="rick and morty"
         />
       </h1>
-      <div className="flex flex-col items-center justify-center bg-[var(--bg-color)]/50 shadow-[0_0_20px_var(--bg-color)] rounded">
+      <div className="flex flex-col items-center justify-center bg-[var(--bg-color)]/90 shadow-[0_0_10px_8px_var(--bg-color)] rounded">
         <p>Hi there, Earthling (or whatever dimension you&apos;re from)!</p>
         <p>
           My name is Anna, a Rick-femail from a dimension where I temporarily

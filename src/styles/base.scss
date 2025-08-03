@@ -1,7 +1,7 @@
 @use './fonts.scss' as fonts;
 @use './variables.scss' as vars;
 @use './mixins.scss' as mixins;
-@import 'themes';
+@forward './themes';
 
 html {
   font-size: 16px;
@@ -54,7 +54,7 @@ html {
 }
 
 .section {
-  padding: 0 1rem;
+  padding: 1rem 2rem;
   text-align: center;
 }
 

@@ -7,7 +7,7 @@ function App() {
   const { theme, toggleTheme } = useContext(ThemeContext);
   return (
     <div
-      className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'} container`}
+      className={`${theme === 'dark' ? 'light-theme' : 'dark-theme'} container`}
     >
       <header className="section flex flex-row items-center justify-between">
         <nav className="bg-[var(--bg-color)]/70 shadow-[0_0_20px_15px_var(--bg-color)]/70 rounded">
