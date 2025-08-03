@@ -2,7 +2,6 @@ import ThemeContext from '@/contexts/theme/ThemeContext';
 import { useContext } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Header } from '../Header/Header';
-import ErrorButton from '../ErrorButton/ErrorButton';
 
 function App() {
   const { theme } = useContext(ThemeContext);
@@ -11,7 +10,6 @@ function App() {
       className={`${theme === 'dark' ? 'light-theme' : 'dark-theme'} container`}
     >
       <Header />
-      <ErrorButton />
       <div className="background" data-testid="background"></div>
       <main className="section">
         <Outlet />
