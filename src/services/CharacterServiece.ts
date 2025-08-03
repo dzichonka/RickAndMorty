@@ -1,17 +1,17 @@
 import type { IApiResponse, ICharacter } from '../types/api-types';
 
-class CharacterService {
-  private _apiBase = 'https://rickandmortyapi.com/api/character';
+const API_BASE = 'https://rickandmortyapi.com/api/character';
 
-  private getResource = async <T>(url: string): Promise<T> => {
-    const res = await fetch(url);
-    if (!res.ok) {
-      throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-    }
-    return (await res.json()) as T;
-  };
+const getResource = async <T>(url: string): Promise<T> => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+  }
+  return (await res.json()) as T;
+};
 
-  public getAllCharacters = async (
+export const characterService = {
+  getAllCharacters: async (
     page: number = 1,
     params?: { name?: string }
   ): Promise<IApiResponse<ICharacter>> => {
@@ -19,16 +19,12 @@ class CharacterService {
     if (params?.name && params.name.trim() !== '') {
       query.append('name', params.name.trim());
     }
-    const url = `${this._apiBase}/?${query.toString()}`;
-    return this.getResource<IApiResponse<ICharacter>>(url);
-  };
+    const url = `${API_BASE}/?${query.toString()}`;
+    return getResource<IApiResponse<ICharacter>>(url);
+  },
 
-  public getCharacter = async (id: number): Promise<ICharacter> => {
-    const url = `${this._apiBase}/${id}`;
-    return this.getResource<{ results: ICharacter[] }>(url).then(
-      (r) => r.results[0]
-    );
-  };
-}
-
-export const characterService = new CharacterService();
+  getCharacter: async (id: number): Promise<ICharacter> => {
+    const url = `${API_BASE}/${id}`;
+    return getResource<ICharacter>(url);
+  },
+};

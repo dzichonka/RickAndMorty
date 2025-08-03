@@ -40,6 +40,7 @@ html {
 
 .section {
   padding: 1rem;
+  text-align: center;
 }
 
 .btn {
@@ -48,4 +49,8 @@ html {
 
 .btn-icon {
   @include mixins.btn-icon;
+}
+
+.link {
+  @include mixins.link;
 }

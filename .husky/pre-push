@@ -1,0 +1,3 @@
+#!/bin/sh
+echo "🚀 Deploying to Netlify..."
+npm run deploy

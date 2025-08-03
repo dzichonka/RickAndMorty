@@ -5,6 +5,14 @@ import { describe, expect, it, vi, afterEach, beforeEach } from 'vitest';
 import '@testing-library/jest-dom';
 import type { ICharacter, IInfo } from '@/types/api-types';
 import { characterService } from '@/services/CharacterServiece';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { MemoryRouter } from 'react-router-dom';
+
+vi.mock('@/hooks/useLocalStorage', () => ({
+  useLocalStorage: vi.fn(),
+}));
+
+const mockLocalStorage = vi.mocked(useLocalStorage);
 
 vi.mock('@/services/CharacterServiece', () => ({
   characterService: {
@@ -25,6 +33,7 @@ const mockedInfo = { count: 3, pages: 1, next: null, prev: null } as IInfo;
 describe('MainPage Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    mockLocalStorage.mockReturnValue(['Rick', vi.fn()]);
   });
 
   afterEach(() => {
@@ -32,10 +41,11 @@ describe('MainPage Component', () => {
   });
 
   it('should renders MainPage', () => {
-    render(<MainPage />);
-    const background = screen.getByTestId('background');
-    expect(background).toBeInTheDocument();
-    expect(background).toHaveClass('background');
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
@@ -45,7 +55,11 @@ describe('MainPage Component', () => {
       info: mockedInfo,
     });
 
-    render(<MainPage />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
 
     expect(screen.getByTestId('loader')).toBeInTheDocument();
 
@@ -57,14 +71,19 @@ describe('MainPage Component', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should render empty div if no data', async () => {
+  it('should show massege if no data', async () => {
     mockedService.getAllCharacters.mockResolvedValueOnce({
       results: [],
       info: mockedInfo,
     });
-    render(<MainPage />);
-    const resultDiv = await screen.findByTestId('result');
-    expect(resultDiv).toBeEmptyDOMElement();
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
+    expect(
+      await screen.findByText(/sorry, no characters found/i)
+    ).toBeInTheDocument();
   });
 
   it('should throw error if data is null', async () => {
@@ -74,9 +93,13 @@ describe('MainPage Component', () => {
         info: IInfo;
       }
     );
-    render(<MainPage />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
     await expect(
-      screen.findByText('Failed to fetch characters')
+      screen.findByText(/you can search for characters/i)
     ).resolves.toBeInTheDocument();
   });
 
@@ -85,16 +108,26 @@ describe('MainPage Component', () => {
       results: mockedData,
       info: mockedInfo,
     });
-    render(<MainPage />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(mockedService.getAllCharacters).toHaveBeenCalledTimes(1);
-      expect(mockedService.getAllCharacters).toHaveBeenCalledWith(1, undefined);
+      expect(mockedService.getAllCharacters).toHaveBeenCalledWith(1, {
+        name: 'Rick',
+      });
     });
   });
 
   it('should show error message on API error', async () => {
     mockedService.getAllCharacters.mockRejectedValueOnce(new Error());
-    render(<MainPage />);
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
     await waitFor(() => {
       expect(
         screen.getByText('Failed to fetch characters')

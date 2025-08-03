@@ -1,79 +1,105 @@
-import ErrorButton from '@/components/ErrorButton/ErrorButton';
 import Loader from '@/components/Loader/Loader';
+import { Pagination } from '@/components/Pagination/Pagination';
 import Result from '@/components/Results/Result';
 import Search from '@/components/Search/Search';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { characterService } from '@/services/CharacterServiece';
-import type { ICharacter } from '@/types/api-types';
-import { Component } from 'react';
+import type { IApiResponse, ICharacter } from '@/types/api-types';
+import { useState, useEffect } from 'react';
+import { Outlet, useSearchParams } from 'react-router-dom';
 
-interface IMainPageState {
-  data: ICharacter[] | null;
-  loading: boolean;
-  error: string | null;
-}
-class MainPage extends Component {
-  state: IMainPageState = {
-    data: null,
-    loading: false,
-    error: null,
-  };
+const MainPage = () => {
+  const [data, setData] = useState<IApiResponse<ICharacter> | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  componentDidMount() {
-    const lastSearch = localStorage.getItem('lastSearch') || '';
-    this.handleSearch(lastSearch);
-  }
+  const page = searchParams.get('page') ?? '1';
+  const [LS, setLS] = useLocalStorage<string>('lastSearch', '');
+  const name = searchParams.get('name') ?? LS;
 
-  handleSearch = async (search: string): Promise<void> => {
-    this.setState({ loading: true, error: null });
+  useEffect(() => {
+    if (!searchParams.get('page')) {
+      searchParams.set('page', '1');
+      setSearchParams(searchParams);
+    }
+  }, [searchParams, setSearchParams]);
+
+  const handleSearch = async (
+    search: string,
+    pageNumber: number
+  ): Promise<void> => {
+    setLoading(true);
+    setError(null);
+    setLS(search);
+
     try {
       const response = await characterService.getAllCharacters(
-        1,
+        pageNumber,
         search.trim() ? { name: search } : undefined
       );
-      this.setState({ data: response.results });
+      setData(response);
     } catch {
-      this.setState({ error: 'Failed to fetch characters' });
+      setError('Failed to fetch characters');
     } finally {
-      this.setState({ loading: false });
+      setLoading(false);
     }
   };
-  render() {
-    return (
-      <>
-        <div className="background" data-testid="background"></div>
-        <div className="container">
-          <h1 className="section h-[100px] flex items-center justify-center">
-            <img
-              className="h-[100px]"
-              src="./images/rick-and-morty-title.png"
-              alt="rick and morty"
-            />
-          </h1>
-          <Search onSearch={this.handleSearch} />
-          {this.state.loading && <Loader />}
-          {this.state.error && !this.state.loading && (
-            <div>
-              <div>
-                <h1 className="h-[100px] flex items-center justify-center">
-                  <img
-                    className="h-[100px]"
-                    src="./images/rick-and-morty-image.png"
-                    alt="rick and morty"
-                  />
-                </h1>
-              </div>
-              <h2 className="text-gray-200 bg-black text-center text-2xl">
-                {this.state.error}
-              </h2>
-            </div>
-          )}
-          {this.state.data && !this.state.loading && !this.state.error && (
-            <Result data={this.state.data} />
-          )}
-          <ErrorButton />
+  const onSubmit = (search: string): void => {
+    setSearchParams({ page: '1', name: search });
+  };
+
+  useEffect(() => {
+    handleSearch(name, Number(page));
+  }, [name, page]);
+
+  return (
+    <>
+      <h1 className="section h-[100px] flex items-center justify-center">
+        <img
+          className="h-[100px]"
+          src="./images/rick-and-morty-title.png"
+          alt="rick and morty"
+        />
+      </h1>
+      <Search onSearch={onSubmit} />
+      {loading && <Loader />}
+      {error && !loading && (
+        <div>
+          <div>
+            <h1 className="h-[100px] flex items-center justify-center">
+              <img
+                className="h-[100px]"
+                src="./images/rick-and-morty-image.png"
+                alt="rick and morty"
+              />
+            </h1>
+          </div>
+          <h2 className="text-gray-200 bg-black text-center text-2xl">
+            {error}
+          </h2>
         </div>
-      </>
-    );
-  }
-}
+      )}
+      {data && data.results.length > 0 && !loading && !error && (
+        <div className="section flex flex-row">
+          <div data-testid="right">
+            <Pagination info={data.info} />
+            <Result data={data} />
+            <Pagination info={data.info} />
+          </div>
+          {searchParams.get('details') && <Outlet />}
+        </div>
+      )}
+      {data && data.results.length === 0 && !loading && !error && (
+        <h2>Sorry, no characters found</h2>
+      )}
+      {!data && !loading && !error && (
+        <h2 className="text-center text-gray-400">
+          You can search for characters
+        </h2>
+      )}
+    </>
+  );
+};
+
 export default MainPage;
