@@ -19,6 +19,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@redux-devtools/extension": "^3.3.0",
     "@tailwindcss/vite": "^4.1.11",
     "@tanstack/react-query": "^5.84.1",
     "react": "^19.1.0",
