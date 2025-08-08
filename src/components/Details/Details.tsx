@@ -3,12 +3,15 @@ import Loader from '../Loader/Loader';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import { useOneCharacter } from '@/hooks/useOneCharacter';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import { LuRefreshCw } from 'react-icons/lu';
 
 export const Details = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const detailsId = searchParams.get('details');
 
-  const { data, isLoading, error } = useOneCharacter(Number(detailsId));
+  const { data, isLoading, error, isFetching, refetch } = useOneCharacter(
+    Number(detailsId)
+  );
 
   const handleClose = () => {
     const newParams = new URLSearchParams(searchParams.toString());
@@ -21,16 +24,26 @@ export const Details = () => {
       data-testid="details"
       className="relative min-w-[15rem] bg-[var(--bg-color)]/60 rounded p-4"
     >
-      {isLoading && <Loader />}
-      {error && !isLoading && <ErrorMessage />}
-      {data && !isLoading && !error && (
+      {(isLoading || isFetching) && <Loader />}
+      {error && !(isLoading || isFetching) && <ErrorMessage />}
+
+      {data && !isLoading && !error && !isFetching && (
         <>
+          <button
+            className="btn-icon"
+            onClick={() => {
+              refetch();
+            }}
+          >
+            <LuRefreshCw />
+          </button>
           <button
             className="btn-icon absolute top-0 right-0"
             onClick={handleClose}
           >
             <IoMdCloseCircleOutline />
           </button>
+
           <div className="pt-2 flex flex-col items-start justify-start gap-4 text-start">
             <div className="self-center">{data.name}</div>
             <img
@@ -46,7 +59,7 @@ export const Details = () => {
           </div>
         </>
       )}
-      {!data && !isLoading && !error && (
+      {!data && !(isLoading || isFetching) && !error && (
         <h2 className="text-center text-gray-400">
           No details for this character
         </h2>

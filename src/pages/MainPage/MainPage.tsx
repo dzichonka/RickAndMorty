@@ -8,6 +8,7 @@ import s from './MainPage.module.scss';
 import { SelectedItems } from '@/components/SelectedItems/SelectedItems';
 import { useCharacters } from '@/hooks/useCharacters';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import { LuRefreshCw } from 'react-icons/lu';
 
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -16,7 +17,10 @@ const MainPage = () => {
   const name =
     searchParams.get('name') ?? localStorage.getItem('lastSearch') ?? '';
 
-  const { data, isLoading, error } = useCharacters(Number(page), name);
+  const { data, isLoading, error, refetch, isFetching } = useCharacters(
+    Number(page),
+    name
+  );
 
   useEffect(() => {
     if (!searchParams.get('page')) {
@@ -48,24 +52,36 @@ const MainPage = () => {
         />
       </h1>
       <Search onSearch={onSubmit} />
-      {isLoading && <Loader />}
-      {error && !isLoading && <ErrorMessage />}
-      {data && data.results.length > 0 && !isLoading && !error && (
-        <div className={`flex flex-row gap-4 py-4 ${s.result}`}>
-          <div
-            data-testid="right"
-            className="flex flex-col gap-4 items-center justify-center"
-          >
-            <Pagination info={data.info} />
-            <Result data={data} />
-            <Pagination info={data.info} />
+      {(isLoading || isFetching) && <Loader />}
+      {error && !(isLoading || isFetching) && <ErrorMessage />}
+      {data &&
+        data.results.length > 0 &&
+        !(isLoading || isFetching) &&
+        !error && (
+          <div className={`flex flex-row gap-4 py-4 ${s.result}`}>
+            <div
+              data-testid="right"
+              className="flex flex-col gap-4 items-center justify-center"
+            >
+              <Pagination info={data.info} />
+              <button
+                className="btn-icon"
+                onClick={() => {
+                  refetch();
+                }}
+              >
+                <LuRefreshCw />
+              </button>
+              <Result data={data} />
+              <Pagination info={data.info} />
+            </div>
+            {searchParams.get('details') && <Outlet />}
           </div>
-          {searchParams.get('details') && <Outlet />}
-        </div>
-      )}
-      {data && data.results.length === 0 && !isLoading && !error && (
-        <h2>Sorry, no characters found</h2>
-      )}
+        )}
+      {data &&
+        data.results.length === 0 &&
+        !(isLoading || isFetching) &&
+        !error && <h2>Sorry, no characters found</h2>}
       {!data && !isLoading && !error && (
         <h2 className="text-center text-[var(--second-color)]/80">
           You can search for characters
