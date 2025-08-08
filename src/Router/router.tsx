@@ -1,10 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import App from '@/components/App/App';
-import MainPage from '@/pages/MainPage/MainPage';
-import AboutPage from '@/pages/AboutPage/AboutPage';
-import NotFoundPage from '@/pages/NotFoundPage/NotFoundPage';
 import { ErrorPage } from '@/pages/ErrorPage/ErrorPage';
 import { Details } from '@/components/Details/Details';
+import Loader from '@/components/Loader/Loader';
+
+const MainPage = lazy(() => import('@/pages/MainPage/MainPage'));
+const AboutPage = lazy(() => import('@/pages/AboutPage/AboutPage'));
+const NotFoundPage = lazy(() => import('@/pages/NotFoundPage/NotFoundPage'));
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +16,11 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        element: <MainPage />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MainPage />
+          </Suspense>
+        ),
         children: [
           {
             path: '/',
@@ -23,11 +30,19 @@ export const router = createBrowserRouter([
       },
       {
         path: 'about',
-        element: <AboutPage />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <AboutPage />
+          </Suspense>
+        ),
       },
       {
         path: '*',
-        element: <NotFoundPage />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <NotFoundPage />
+          </Suspense>
+        ),
       },
     ],
   },

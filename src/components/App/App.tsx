@@ -1,21 +1,19 @@
-import { Link, Outlet } from 'react-router-dom';
+import ThemeContext from '@/contexts/theme/ThemeContext';
+import { useContext } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Header } from '../Header/Header';
 
 function App() {
+  const { theme } = useContext(ThemeContext);
   return (
-    <div>
-      <nav className="bg-black/70">
-        <Link className="link" to="/">
-          Main
-        </Link>{' '}
-        |{' '}
-        <Link className="link" to="/about">
-          About
-        </Link>
-      </nav>
+    <div
+      className={`${theme === 'dark' ? 'light-theme' : 'dark-theme'} container`}
+    >
+      <Header />
       <div className="background" data-testid="background"></div>
-      <div className="container">
+      <main className="section">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }

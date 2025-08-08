@@ -22,17 +22,17 @@ const Search = ({ onSearch }: SearchProps) => {
 
   return (
     <form
-      className="section flex flex-row items-center justify-center"
+      className="flex flex-row items-center justify-center gap-2 relative z-10"
       onSubmit={handleSearch}
     >
-      <label className="label" htmlFor="search">
+      <label htmlFor="search">
         <input
           type="text"
           id="search"
           value={search}
           onChange={(event) => setSearch(event.target.value)}
-          className="w-full px-2 py-1 border border-cyan-300 bg-black rounded
-              focus:outline-none focus:ring-lime-400 focus:ring"
+          className="w-full px-2 py-1 border border-[var(--main-color)] bg-[var(--bg-color)] rounded
+              focus:outline-none focus:ring-[var(--main-color)] focus:ring"
           placeholder="Search..."
         />
       </label>

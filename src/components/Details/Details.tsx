@@ -38,9 +38,9 @@ export const Details = () => {
   };
 
   return (
-    <div
+    <aside
       data-testid="details"
-      className="relative min-w-[15rem] bg-black/70 rounded p-4"
+      className="relative min-w-[15rem] bg-[var(--bg-color)]/60 rounded p-4"
     >
       {loading && <Loader />}
       {error && !loading && (
@@ -78,6 +78,6 @@ export const Details = () => {
           No details for this character
         </h2>
       )}
-    </div>
+    </aside>
   );
 };
