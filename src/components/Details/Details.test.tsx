@@ -4,10 +4,11 @@ import '@testing-library/jest-dom';
 import { Details } from './Details';
 import { MemoryRouter } from 'react-router-dom';
 import type { ICharacter } from '@/types/api-types';
-import { useOneCharacter } from '@/hooks/useOneCharacter';
+import { useOneCharacter } from '@/hooks/useOneCharacter/useOneCharacter';
 import type { UseQueryResult } from '@tanstack/react-query';
+import userEvent from '@testing-library/user-event';
 
-vi.mock('@/hooks/useOneCharacter', () => ({
+vi.mock('@/hooks/useOneCharacter/useOneCharacter', () => ({
   useOneCharacter: vi.fn(),
 }));
 
@@ -118,5 +119,27 @@ describe('Details', () => {
         screen.getByText(/no details for this character/i)
       ).toBeInTheDocument()
     );
+  });
+  it('calls refetch when refresh button is clicked', async () => {
+    const refetchMock = vi.fn();
+
+    mockedUseOneCharacter.mockReturnValue({
+      data: mockCharacter,
+      isLoading: false,
+      isFetching: false,
+      error: null,
+      refetch: refetchMock,
+    } as unknown as UseQueryResult<ICharacter, Error>);
+
+    render(
+      <MemoryRouter initialEntries={['/?details=1']}>
+        <Details />
+      </MemoryRouter>
+    );
+
+    const button = screen.getByTestId('refresh');
+    await userEvent.click(button);
+
+    expect(refetchMock).toHaveBeenCalledTimes(1);
   });
 });

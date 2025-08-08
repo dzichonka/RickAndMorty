@@ -6,9 +6,9 @@ import { useEffect } from 'react';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import s from './MainPage.module.scss';
 import { SelectedItems } from '@/components/SelectedItems/SelectedItems';
-import { useCharacters } from '@/hooks/useCharacters';
+import { useCharacters } from '@/hooks/useCharacters/useCharacters';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
-import { LuRefreshCw } from 'react-icons/lu';
+import { RefetchButton } from '@/components/RefetchButton/RefetchButton';
 
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -64,14 +64,7 @@ const MainPage = () => {
               className="flex flex-col gap-4 items-center justify-center"
             >
               <Pagination info={data.info} />
-              <button
-                className="btn-icon"
-                onClick={() => {
-                  refetch();
-                }}
-              >
-                <LuRefreshCw />
-              </button>
+              <RefetchButton onClick={() => refetch()} />
               <Result data={data} />
               <Pagination info={data.info} />
             </div>

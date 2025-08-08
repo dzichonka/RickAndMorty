@@ -1,9 +1,9 @@
 import { useSearchParams } from 'react-router-dom';
-import Loader from '../Loader/Loader';
+import Loader from '@/components/Loader/Loader';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
-import { useOneCharacter } from '@/hooks/useOneCharacter';
-import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import { LuRefreshCw } from 'react-icons/lu';
+import { useOneCharacter } from '@/hooks/useOneCharacter/useOneCharacter';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import { RefetchButton } from '@/components/RefetchButton/RefetchButton';
 
 export const Details = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -29,14 +29,7 @@ export const Details = () => {
 
       {data && !isLoading && !error && !isFetching && (
         <>
-          <button
-            className="btn-icon"
-            onClick={() => {
-              refetch();
-            }}
-          >
-            <LuRefreshCw />
-          </button>
+          <RefetchButton onClick={() => refetch()} />
           <button
             className="btn-icon absolute top-0 right-0"
             onClick={handleClose}

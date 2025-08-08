@@ -6,9 +6,10 @@ import '@testing-library/jest-dom';
 import type { ICharacter, IInfo } from '@/types/api-types';
 import { MemoryRouter } from 'react-router-dom';
 import type { UseQueryResult } from '@tanstack/react-query';
-import { useCharacters } from '@/hooks/useCharacters';
+import { useCharacters } from '@/hooks/useCharacters/useCharacters';
+import userEvent from '@testing-library/user-event';
 
-vi.mock('@/hooks/useCharacters', () => ({
+vi.mock('@/hooks/useCharacters/useCharacters', () => ({
   useCharacters: vi.fn(),
 }));
 const mockedUseCharacters = vi.mocked(useCharacters);
@@ -112,5 +113,33 @@ describe('MainPage Component', () => {
       </MemoryRouter>
     );
     expect(screen.getByText(/failed to fetch characters/i)).toBeInTheDocument();
+  });
+  it('should call refetch when refresh button is clicked', async () => {
+    const refetchMock = vi.fn();
+
+    mockedUseCharacters.mockReturnValue({
+      data: {
+        results: mockedData,
+        info: mockedInfo,
+      },
+      isLoading: false,
+      isFetching: false,
+      error: null,
+      refetch: refetchMock,
+    } as unknown as UseQueryResult<
+      { results: ICharacter[]; info: IInfo },
+      Error
+    >);
+
+    render(
+      <MemoryRouter>
+        <MainPage />
+      </MemoryRouter>
+    );
+
+    const button = screen.getByTestId('refresh');
+    await userEvent.click(button);
+
+    expect(refetchMock).toHaveBeenCalledTimes(1);
   });
 });
