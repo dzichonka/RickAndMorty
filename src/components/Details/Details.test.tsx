@@ -4,15 +4,14 @@ import '@testing-library/jest-dom';
 import { Details } from './Details';
 import { MemoryRouter } from 'react-router-dom';
 import type { ICharacter } from '@/types/api-types';
-import { characterService } from '@/services/CharacterServiece';
+import { useOneCharacter } from '@/hooks/useOneCharacter';
+import type { UseQueryResult } from '@tanstack/react-query';
 
-vi.mock('@/services/CharacterServiece', () => ({
-  characterService: {
-    getCharacter: vi.fn(),
-  },
+vi.mock('@/hooks/useOneCharacter', () => ({
+  useOneCharacter: vi.fn(),
 }));
 
-const mockedService = vi.mocked(characterService);
+const mockedUseOneCharacter = vi.mocked(useOneCharacter);
 
 const mockCharacter: ICharacter = {
   id: 1,
@@ -39,7 +38,11 @@ describe('Details', () => {
   });
 
   it('shows loader while fetching', async () => {
-    mockedService.getCharacter.mockImplementation(() => new Promise(() => {}));
+    mockedUseOneCharacter.mockReturnValue({
+      data: undefined,
+      isLoading: true,
+      error: null,
+    } as unknown as UseQueryResult<ICharacter, Error>);
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
         <Details />
@@ -51,7 +54,11 @@ describe('Details', () => {
   });
 
   it('shows error message on failure', async () => {
-    mockedService.getCharacter.mockRejectedValue(new Error('Failed to fetch'));
+    mockedUseOneCharacter.mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      error: new Error('Failed to fetch character'),
+    } as unknown as UseQueryResult<ICharacter, Error>);
 
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
@@ -65,7 +72,11 @@ describe('Details', () => {
   });
 
   it('shows character data on success', async () => {
-    mockedService.getCharacter.mockResolvedValue(mockCharacter);
+    mockedUseOneCharacter.mockReturnValue({
+      data: mockCharacter,
+      isLoading: false,
+      error: null,
+    } as unknown as UseQueryResult<ICharacter, Error>);
 
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
@@ -90,7 +101,11 @@ describe('Details', () => {
   });
 
   it('shows fallback message if no data returned', async () => {
-    mockedService.getCharacter.mockResolvedValue(null as unknown as ICharacter);
+    mockedUseOneCharacter.mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      error: null,
+    } as unknown as UseQueryResult<ICharacter, Error>);
 
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
