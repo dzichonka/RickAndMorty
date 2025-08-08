@@ -2,6 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import Loader from '../Loader/Loader';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import { useOneCharacter } from '@/hooks/useOneCharacter';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 export const Details = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -21,13 +22,7 @@ export const Details = () => {
       className="relative min-w-[15rem] bg-[var(--bg-color)]/60 rounded p-4"
     >
       {isLoading && <Loader />}
-      {error && !isLoading && (
-        <div>
-          <h2 className="text-gray-200 bg-black text-center text-2xl">
-            Failed to fetch character
-          </h2>
-        </div>
-      )}
+      {error && !isLoading && <ErrorMessage />}
       {data && !isLoading && !error && (
         <>
           <button

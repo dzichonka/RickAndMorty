@@ -7,6 +7,7 @@ import { Outlet, useSearchParams } from 'react-router-dom';
 import s from './MainPage.module.scss';
 import { SelectedItems } from '@/components/SelectedItems/SelectedItems';
 import { useCharacters } from '@/hooks/useCharacters';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,22 +49,7 @@ const MainPage = () => {
       </h1>
       <Search onSearch={onSubmit} />
       {isLoading && <Loader />}
-      {error && !isLoading && (
-        <div>
-          <div>
-            <h1 className="h-[100px] flex items-center justify-center">
-              <img
-                className="h-[100px]"
-                src="./images/rick-and-morty-image.png"
-                alt="rick and morty"
-              />
-            </h1>
-          </div>
-          <h2 className="text-gray-200 bg-black text-center text-2xl">
-            Failed to fetch characters
-          </h2>
-        </div>
-      )}
+      {error && !isLoading && <ErrorMessage />}
       {data && data.results.length > 0 && !isLoading && !error && (
         <div className={`flex flex-row gap-4 py-4 ${s.result}`}>
           <div
