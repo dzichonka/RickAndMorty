@@ -1,8 +1,8 @@
 import { useCardsStore } from '@/store/useCardsStore';
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { CiSaveDown2 } from 'react-icons/ci';
-import { GiMagicBroom } from 'react-icons/gi';
+import { MdDownloadForOffline } from 'react-icons/md';
+import { MdDeleteForever } from 'react-icons/md';
 import { DownloadLink } from '../DownloadLink/DownloadLink';
 
 export function SelectedItems() {
@@ -41,22 +41,25 @@ export function SelectedItems() {
     setDownloadData(csvContent);
   };
   return createPortal(
-    <div className="w-full sticky bottom-0 bg-black/60 text-cyan-300 border-t border-white p-4 flex justify-between items-center z-50">
-      {downloadData && (
-        <DownloadLink
-          data={downloadData}
-          filename={`rick_and_morty_${items.length}_cards.csv`}
-          onDownloaded={() => setDownloadData(null)}
-        />
-      )}
-      <div>Number of selected cards: {items.length}</div>
-      <div className="flex flex-row gap-4">
-        <button className="btn-icon" onClick={reset}>
-          <GiMagicBroom />
-        </button>
-        <button className="btn-icon" onClick={handleDownload}>
-          <CiSaveDown2 />
-        </button>
+    <div className="w-full sticky bottom-0 bg-black/60 text-cyan-300 border-t border-white z-50">
+      <div className="container p-4 flex flex-row justify-between items-center ">
+        {' '}
+        {downloadData && (
+          <DownloadLink
+            data={downloadData}
+            filename={`rick_and_morty_${items.length}_cards.csv`}
+            onDownloaded={() => setDownloadData(null)}
+          />
+        )}
+        <div>Number of selected cards: {items.length}</div>
+        <div className="flex flex-row gap-4">
+          <button className="btn-icon text-[2rem]" onClick={reset}>
+            <MdDeleteForever />
+          </button>
+          <button className="btn-icon text-[2rem]" onClick={handleDownload}>
+            <MdDownloadForOffline />
+          </button>
+        </div>
       </div>
     </div>,
     document.body

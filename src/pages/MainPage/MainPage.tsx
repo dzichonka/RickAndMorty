@@ -9,6 +9,7 @@ import { SelectedItems } from '@/components/SelectedItems/SelectedItems';
 import { useCharacters } from '@/hooks/useCharacters/useCharacters';
 import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
 import { RefetchButton } from '@/components/RefetchButton/RefetchButton';
+import { useQueryClient } from '@tanstack/react-query';
 
 const MainPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -16,6 +17,8 @@ const MainPage = () => {
   const page = searchParams.get('page') ?? '1';
   const name =
     searchParams.get('name') ?? localStorage.getItem('lastSearch') ?? '';
+
+  const queryClient = useQueryClient();
 
   const { data, isLoading, error, refetch, isFetching } = useCharacters(
     Number(page),
@@ -64,7 +67,12 @@ const MainPage = () => {
               className="flex flex-col gap-4 items-center justify-center"
             >
               <Pagination info={data.info} />
-              <RefetchButton onClick={() => refetch()} />
+              <RefetchButton
+                onClick={() => {
+                  queryClient.removeQueries({ queryKey: ['characters'] });
+                  refetch();
+                }}
+              />
               <Result data={data} />
               <Pagination info={data.info} />
             </div>

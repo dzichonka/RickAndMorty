@@ -17,7 +17,7 @@ export function Header() {
         </Link>
       </nav>
       <button
-        className="btn-icon !bg-[var(--bg-color)]/50 shadow-[0_0_25px_30px_var(--bg-color)]/50 rounded-full"
+        className="btn-icon text-[1.5rem] !bg-[var(--bg-color)]/30 shadow-[0_0_15px_20px_var(--bg-color)]/30 rounded-full"
         onClick={toggleTheme}
       >
         <GrPaint />

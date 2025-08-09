@@ -1,5 +1,13 @@
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
-import { describe, it, vi, expect, beforeEach, afterEach } from 'vitest';
+import {
+  describe,
+  it,
+  vi,
+  expect,
+  beforeEach,
+  afterEach,
+  type Mock,
+} from 'vitest';
 import '@testing-library/jest-dom';
 import { Details } from './Details';
 import { MemoryRouter } from 'react-router-dom';
@@ -7,6 +15,17 @@ import type { ICharacter } from '@/types/api-types';
 import { useOneCharacter } from '@/hooks/useOneCharacter/useOneCharacter';
 import type { UseQueryResult } from '@tanstack/react-query';
 import userEvent from '@testing-library/user-event';
+import { useQueryClient } from '@tanstack/react-query';
+
+vi.mock('@tanstack/react-query', () => {
+  const actual = vi.importActual('@tanstack/react-query') as object;
+  return {
+    ...actual,
+    useQueryClient: vi.fn(),
+  };
+});
+
+const removeQueriesMock = vi.fn();
 
 vi.mock('@/hooks/useOneCharacter/useOneCharacter', () => ({
   useOneCharacter: vi.fn(),
@@ -32,6 +51,9 @@ const mockCharacter: ICharacter = {
 describe('Details', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    (useQueryClient as Mock).mockReturnValue({
+      removeQueries: removeQueriesMock,
+    } as unknown as ReturnType<typeof useQueryClient>);
   });
 
   afterEach(() => {

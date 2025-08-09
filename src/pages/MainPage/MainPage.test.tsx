@@ -1,13 +1,31 @@
 import { render, screen, cleanup } from '@testing-library/react';
 import MainPage from './MainPage';
-
-import { describe, expect, it, vi, afterEach, beforeEach } from 'vitest';
+import {
+  describe,
+  expect,
+  it,
+  vi,
+  afterEach,
+  beforeEach,
+  type Mock,
+} from 'vitest';
 import '@testing-library/jest-dom';
 import type { ICharacter, IInfo } from '@/types/api-types';
 import { MemoryRouter } from 'react-router-dom';
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useCharacters } from '@/hooks/useCharacters/useCharacters';
 import userEvent from '@testing-library/user-event';
+import { useQueryClient } from '@tanstack/react-query';
+
+vi.mock('@tanstack/react-query', () => {
+  const actual = vi.importActual('@tanstack/react-query') as object;
+  return {
+    ...actual,
+    useQueryClient: vi.fn(),
+  };
+});
+
+const removeQueriesMock = vi.fn();
 
 vi.mock('@/hooks/useCharacters/useCharacters', () => ({
   useCharacters: vi.fn(),
@@ -26,6 +44,9 @@ describe('MainPage Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     localStorage.setItem('lastSearch', 'Rick');
+    (useQueryClient as Mock).mockReturnValue({
+      removeQueries: removeQueriesMock,
+    } as unknown as ReturnType<typeof useQueryClient>);
   });
 
   afterEach(() => {

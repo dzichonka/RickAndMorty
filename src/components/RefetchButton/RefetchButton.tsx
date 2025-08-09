@@ -7,7 +7,7 @@ type RefetchButtonProps = {
 export const RefetchButton = ({ onClick }: RefetchButtonProps) => {
   return (
     <button
-      className="btn-icon"
+      className="btn-icon  text-[1.5rem] "
       data-testid="refresh"
       onClick={() => onClick()}
     >
