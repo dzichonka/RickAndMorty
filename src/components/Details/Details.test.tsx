@@ -25,7 +25,7 @@ vi.mock('@tanstack/react-query', () => {
   };
 });
 
-const removeQueriesMock = vi.fn();
+const invalidateQueriesMock = vi.fn();
 
 vi.mock('@/hooks/useOneCharacter/useOneCharacter', () => ({
   useOneCharacter: vi.fn(),
@@ -52,7 +52,7 @@ describe('Details', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (useQueryClient as Mock).mockReturnValue({
-      removeQueries: removeQueriesMock,
+      invalidateQueries: invalidateQueriesMock,
     } as unknown as ReturnType<typeof useQueryClient>);
   });
 
@@ -143,14 +143,9 @@ describe('Details', () => {
     );
   });
   it('calls refetch when refresh button is clicked', async () => {
-    const refetchMock = vi.fn();
-
     mockedUseOneCharacter.mockReturnValue({
       data: mockCharacter,
-      isLoading: false,
-      isFetching: false,
       error: null,
-      refetch: refetchMock,
     } as unknown as UseQueryResult<ICharacter, Error>);
 
     render(
@@ -162,6 +157,6 @@ describe('Details', () => {
     const button = screen.getByTestId('refresh');
     await userEvent.click(button);
 
-    expect(refetchMock).toHaveBeenCalledTimes(1);
+    expect(invalidateQueriesMock).toHaveBeenCalledTimes(1);
   });
 });

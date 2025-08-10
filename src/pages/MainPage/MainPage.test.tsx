@@ -25,7 +25,7 @@ vi.mock('@tanstack/react-query', () => {
   };
 });
 
-const removeQueriesMock = vi.fn();
+const invalidateQueriesMock = vi.fn();
 
 vi.mock('@/hooks/useCharacters/useCharacters', () => ({
   useCharacters: vi.fn(),
@@ -45,7 +45,7 @@ describe('MainPage Component', () => {
     vi.clearAllMocks();
     localStorage.setItem('lastSearch', 'Rick');
     (useQueryClient as Mock).mockReturnValue({
-      removeQueries: removeQueriesMock,
+      invalidateQueries: invalidateQueriesMock,
     } as unknown as ReturnType<typeof useQueryClient>);
   });
 
@@ -136,17 +136,13 @@ describe('MainPage Component', () => {
     expect(screen.getByText(/failed to fetch characters/i)).toBeInTheDocument();
   });
   it('should call refetch when refresh button is clicked', async () => {
-    const refetchMock = vi.fn();
-
     mockedUseCharacters.mockReturnValue({
       data: {
         results: mockedData,
         info: mockedInfo,
       },
       isLoading: false,
-      isFetching: false,
       error: null,
-      refetch: refetchMock,
     } as unknown as UseQueryResult<
       { results: ICharacter[]; info: IInfo },
       Error
@@ -161,6 +157,6 @@ describe('MainPage Component', () => {
     const button = screen.getByTestId('refresh');
     await userEvent.click(button);
 
-    expect(refetchMock).toHaveBeenCalledTimes(1);
+    expect(invalidateQueriesMock).toHaveBeenCalledTimes(1);
   });
 });

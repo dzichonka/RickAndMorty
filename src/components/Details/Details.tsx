@@ -12,9 +12,7 @@ export const Details = () => {
 
   const queryClient = useQueryClient();
 
-  const { data, isLoading, error, isFetching, refetch } = useOneCharacter(
-    Number(detailsId)
-  );
+  const { data, isLoading, error } = useOneCharacter(Number(detailsId));
 
   const handleClose = () => {
     const newParams = new URLSearchParams(searchParams.toString());
@@ -27,15 +25,14 @@ export const Details = () => {
       data-testid="details"
       className="relative min-w-[15rem] bg-[var(--bg-color)]/60 rounded p-4"
     >
-      {(isLoading || isFetching) && <Loader />}
-      {error && !(isLoading || isFetching) && <ErrorMessage />}
+      {isLoading && <Loader />}
+      {error && !isLoading && <ErrorMessage />}
 
-      {data && !isLoading && !error && !isFetching && (
+      {data && !isLoading && !error && (
         <>
           <RefetchButton
             onClick={() => {
-              queryClient.removeQueries({ queryKey: ['one-character'] });
-              refetch();
+              queryClient.invalidateQueries({ queryKey: ['one-character'] });
             }}
           />
           <button
@@ -60,7 +57,7 @@ export const Details = () => {
           </div>
         </>
       )}
-      {!data && !(isLoading || isFetching) && !error && (
+      {!data && !isLoading && !error && (
         <h2 className="text-center text-gray-400">
           No details for this character
         </h2>

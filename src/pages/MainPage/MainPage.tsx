@@ -20,10 +20,7 @@ const MainPage = () => {
 
   const queryClient = useQueryClient();
 
-  const { data, isLoading, error, refetch, isFetching } = useCharacters(
-    Number(page),
-    name
-  );
+  const { data, isLoading, error } = useCharacters(Number(page), name);
 
   useEffect(() => {
     if (!searchParams.get('page')) {
@@ -55,34 +52,29 @@ const MainPage = () => {
         />
       </h1>
       <Search onSearch={onSubmit} />
-      {(isLoading || isFetching) && <Loader />}
-      {error && !(isLoading || isFetching) && <ErrorMessage />}
-      {data &&
-        data.results.length > 0 &&
-        !(isLoading || isFetching) &&
-        !error && (
-          <div className={`flex flex-row gap-4 py-4 ${s.result}`}>
-            <div
-              data-testid="right"
-              className="flex flex-col gap-4 items-center justify-center"
-            >
-              <Pagination info={data.info} />
-              <RefetchButton
-                onClick={() => {
-                  queryClient.removeQueries({ queryKey: ['characters'] });
-                  refetch();
-                }}
-              />
-              <Result data={data} />
-              <Pagination info={data.info} />
-            </div>
-            {searchParams.get('details') && <Outlet />}
+      {isLoading && <Loader />}
+      {error && !isLoading && <ErrorMessage />}
+      {data && data.results.length > 0 && !isLoading && !error && (
+        <div className={`flex flex-row gap-4 py-4 ${s.result}`}>
+          <div
+            data-testid="right"
+            className="flex flex-col gap-4 items-center justify-center"
+          >
+            <Pagination info={data.info} />
+            <RefetchButton
+              onClick={() => {
+                queryClient.invalidateQueries({ queryKey: ['characters'] });
+              }}
+            />
+            <Result data={data} />
+            <Pagination info={data.info} />
           </div>
-        )}
-      {data &&
-        data.results.length === 0 &&
-        !(isLoading || isFetching) &&
-        !error && <h2>Sorry, no characters found</h2>}
+          {searchParams.get('details') && <Outlet />}
+        </div>
+      )}
+      {data && data.results.length === 0 && !isLoading && !error && (
+        <h2>Sorry, no characters found</h2>
+      )}
       {!data && !isLoading && !error && (
         <h2 className="text-center text-[var(--second-color)]/80">
           You can search for characters
