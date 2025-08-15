@@ -1,7 +1,15 @@
 import { Mansalva } from 'next/font/google';
 import './globals.scss';
+import ThemeProvider from '@/contexts/theme/ThemeProvider';
 
-const mansalva = Mansalva({ subsets: ['latin'], weight: '400' });
+import ClientThemeWrapper from '@/components/ClientThemeWrapper/ClientThemeWrapper';
+import { Header } from '@/components/Header/Header';
+
+const mansalva = Mansalva({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-main',
+});
 
 export default function RootLayout({
   children,
@@ -10,10 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${mansalva} antialiased`}>
-        <div id="root" className="container">
-          {children}
-        </div>
+      <body className={`${mansalva.className} antialiased`}>
+        <ThemeProvider>
+          <ClientThemeWrapper>
+            <Header />
+            {children}
+          </ClientThemeWrapper>
+        </ThemeProvider>
       </body>
     </html>
   );

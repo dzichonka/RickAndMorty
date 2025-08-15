@@ -1,0 +1,24 @@
+@media (width <= 460px) {
+  .result {
+    flex-direction: column-reverse;
+    flex-direction: column-reverse;
+    -webkit-box-orient: vertical;
+    align-items: center;
+    -webkit-box-align: center;
+    -webkit-box-direction: reverse;
+    -ms-flex-align: center;
+  }
+
+  .right {
+    flex-direction: column;
+    flex-direction: column;
+    -webkit-box-orient: vertical;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-box-direction: normal;
+    -webkit-box-pack: center;
+    -ms-flex-align: center;
+    -ms-flex-pack: center;
+  }
+}
