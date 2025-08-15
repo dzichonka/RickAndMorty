@@ -9,6 +9,6 @@ export const useCharacters = (page: number = 1, name?: string) => {
       const [, page, name] = queryKey as [string, number, string];
       return characterService.getAllCharacters(page, { name });
     },
-    staleTime: 60 * 1000,
+    staleTime: 60 * 60 * 1000,
   });
 };

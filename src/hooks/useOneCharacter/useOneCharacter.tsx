@@ -9,7 +9,7 @@ export const useOneCharacter = (id: number) => {
       const [, id] = queryKey as [string, number];
       return characterService.getCharacter(id);
     },
-    staleTime: 60 * 1000,
+    staleTime: 60 * 60 * 1000,
     enabled: !!id,
   });
 };
