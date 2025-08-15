@@ -3,6 +3,7 @@ import ThemeContext from '@/contexts/theme/ThemeContext';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { GrPaint } from 'react-icons/gr';
+import ErrorButton from '../ErrorButton/ErrorButton';
 
 export function Header() {
   const { toggleTheme } = useContext(ThemeContext);
@@ -17,12 +18,16 @@ export function Header() {
           About
         </Link>
       </nav>
-      <button
-        className="btn-icon text-[1.5rem] !bg-[var(--bg-color)]/30 shadow-[0_0_15px_20px_var(--bg-color)]/30 rounded-full"
-        onClick={toggleTheme}
-      >
-        <GrPaint />
-      </button>
+      <div className="buttons flex flex-row items-center justify-center gap-2">
+        {' '}
+        <button
+          className="btn-icon text-[1.5rem] !bg-[var(--bg-color)]/30 shadow-[0_0_15px_20px_var(--bg-color)]/30 rounded-full"
+          onClick={toggleTheme}
+        >
+          <GrPaint />
+        </button>
+        <ErrorButton />
+      </div>
     </header>
   );
 }

@@ -1,4 +1,6 @@
+'use client';
 import { useState } from 'react';
+import { FaExplosion } from 'react-icons/fa6';
 
 const ErrorButton = () => {
   const [shouldThrow, setShouldThrow] = useState(false);
@@ -9,10 +11,10 @@ const ErrorButton = () => {
 
   return (
     <button
-      className="btn absolute top-5 right-5"
+      className="btn-icon text-[1.5rem]"
       onClick={() => setShouldThrow(true)}
     >
-      Error
+      <FaExplosion />
     </button>
   );
 };

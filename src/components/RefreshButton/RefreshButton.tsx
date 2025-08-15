@@ -1,10 +1,10 @@
-import { Link } from 'react-router-dom';
+'use client';
 
 const RefreshButton = () => {
   return (
-    <Link role="button" className="btn" to="/">
+    <button className="btn" onClick={() => window.location.reload()}>
       Fix it!
-    </Link>
+    </button>
   );
 };
 

@@ -1,5 +1,6 @@
+'use client';
 import RefreshButton from '@/components/RefreshButton/RefreshButton';
-export const ErrorPage = () => (
+const ErrorPage = () => (
   <div className="container light-theme">
     <div className="background"></div>
     <section className="section flex flex-col items-center justify-center gap-4">
@@ -10,8 +11,9 @@ export const ErrorPage = () => (
           alt="rick and morty"
         />
       </h1>
-      <h1 className="text-3xl text-black">Error Boundary caught an error</h1>
+      <h1 className="text-3xl text-black">Error page</h1>
       <RefreshButton />
     </section>
   </div>
 );
+export default ErrorPage;
