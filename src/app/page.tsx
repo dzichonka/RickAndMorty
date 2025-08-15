@@ -1,5 +1,11 @@
+import Search from '@/components/Search/Search';
+
 const HomePage = () => {
-  return <div className="btn"> Home Page</div>;
+  return (
+    <>
+      <Search />
+    </>
+  );
 };
 
 export default HomePage;

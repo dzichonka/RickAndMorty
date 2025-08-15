@@ -1,24 +1,29 @@
+'use client';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 
-type SearchProps = {
-  onSearch: (search: string) => void;
-};
-const Search = ({ onSearch }: SearchProps) => {
-  const [search, setSearch] = useState(
-    localStorage.getItem('lastSearch') || ''
-  );
+// type SearchProps = {
+//   onSearch: (search: string) => void;
+// };
+const Search = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const LSValue = localStorage.getItem('lastSearch');
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    const lastSearch = localStorage.getItem('lastSearch') || '';
+    const paramSearch = searchParams ? (searchParams.get('name') ?? '') : '';
+    setSearch(lastSearch || paramSearch);
+  }, [searchParams]);
 
   const handleSearch = (event: React.FormEvent): void => {
     event?.preventDefault();
-    localStorage.setItem('lastSearch', search.trim());
-    onSearch(search.trim());
+    const value = search.trim();
+    localStorage.setItem('lastSearch', value);
+    router.push(`/?name=${encodeURIComponent(value)}&page=1`);
   };
-  useEffect(() => {
-    setSearch(LSValue || '');
-  }, [LSValue]);
 
   return (
     <form
