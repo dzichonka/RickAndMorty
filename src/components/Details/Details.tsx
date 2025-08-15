@@ -1,35 +1,18 @@
-import { characterService } from '@/services/CharacterServiece';
-import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import Loader from '../Loader/Loader';
-import type { ICharacter } from '@/types/api-types';
+import Loader from '@/components/Loader/Loader';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
+import { useOneCharacter } from '@/hooks/useOneCharacter/useOneCharacter';
+import ErrorMessage from '@/components/ErrorMessage/ErrorMessage';
+import { RefetchButton } from '@/components/RefetchButton/RefetchButton';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const Details = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const detailsId = searchParams.get('details');
-  const [data, setData] = useState<ICharacter | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const getData = async (detailsId: string): Promise<void> => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await characterService.getCharacter(Number(detailsId));
-      setData(response);
-    } catch {
-      setError('Failed to fetch characters');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (!detailsId) return;
-    setLoading(true);
-    getData(detailsId);
-  }, [detailsId]);
+  const { data, isLoading, error } = useOneCharacter(Number(detailsId));
 
   const handleClose = () => {
     const newParams = new URLSearchParams(searchParams.toString());
@@ -42,22 +25,23 @@ export const Details = () => {
       data-testid="details"
       className="relative min-w-[15rem] bg-[var(--bg-color)]/60 rounded p-4"
     >
-      {loading && <Loader />}
-      {error && !loading && (
-        <div>
-          <h2 className="text-gray-200 bg-black text-center text-2xl">
-            {error}
-          </h2>
-        </div>
-      )}
-      {data && !loading && !error && (
+      {isLoading && <Loader />}
+      {error && !isLoading && <ErrorMessage />}
+
+      {data && !isLoading && !error && (
         <>
+          <RefetchButton
+            onClick={() => {
+              queryClient.invalidateQueries({ queryKey: ['one-character'] });
+            }}
+          />
           <button
-            className="btn-icon absolute top-0 right-0"
+            className="btn-icon  text-[1.5rem] absolute top-0 right-0"
             onClick={handleClose}
           >
             <IoMdCloseCircleOutline />
           </button>
+
           <div className="pt-2 flex flex-col items-start justify-start gap-4 text-start">
             <div className="self-center">{data.name}</div>
             <img
@@ -73,7 +57,7 @@ export const Details = () => {
           </div>
         </>
       )}
-      {!data && !loading && !error && (
+      {!data && !isLoading && !error && (
         <h2 className="text-center text-gray-400">
           No details for this character
         </h2>

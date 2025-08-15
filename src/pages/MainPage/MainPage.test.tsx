@@ -1,26 +1,36 @@
-import { render, screen, cleanup, waitFor } from '@testing-library/react';
+import { render, screen, cleanup } from '@testing-library/react';
 import MainPage from './MainPage';
-
-import { describe, expect, it, vi, afterEach, beforeEach } from 'vitest';
+import {
+  describe,
+  expect,
+  it,
+  vi,
+  afterEach,
+  beforeEach,
+  type Mock,
+} from 'vitest';
 import '@testing-library/jest-dom';
 import type { ICharacter, IInfo } from '@/types/api-types';
-import { characterService } from '@/services/CharacterServiece';
-import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { MemoryRouter } from 'react-router-dom';
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useCharacters } from '@/hooks/useCharacters/useCharacters';
+import userEvent from '@testing-library/user-event';
+import { useQueryClient } from '@tanstack/react-query';
 
-vi.mock('@/hooks/useLocalStorage', () => ({
-  useLocalStorage: vi.fn(),
+vi.mock('@tanstack/react-query', () => {
+  const actual = vi.importActual('@tanstack/react-query') as object;
+  return {
+    ...actual,
+    useQueryClient: vi.fn(),
+  };
+});
+
+const invalidateQueriesMock = vi.fn();
+
+vi.mock('@/hooks/useCharacters/useCharacters', () => ({
+  useCharacters: vi.fn(),
 }));
-
-const mockLocalStorage = vi.mocked(useLocalStorage);
-
-vi.mock('@/services/CharacterServiece', () => ({
-  characterService: {
-    getAllCharacters: vi.fn(),
-  },
-}));
-
-const mockedService = vi.mocked(characterService);
+const mockedUseCharacters = vi.mocked(useCharacters);
 
 const mockedData = [
   { id: 1, name: 'Rick', status: 'Alive', species: 'Human' },
@@ -33,14 +43,29 @@ const mockedInfo = { count: 3, pages: 1, next: null, prev: null } as IInfo;
 describe('MainPage Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    mockLocalStorage.mockReturnValue(['Rick', vi.fn()]);
+    localStorage.setItem('lastSearch', 'Rick');
+    (useQueryClient as Mock).mockReturnValue({
+      invalidateQueries: invalidateQueriesMock,
+    } as unknown as ReturnType<typeof useQueryClient>);
   });
 
   afterEach(() => {
     cleanup();
+    localStorage.removeItem('lastSearch');
   });
 
   it('should renders MainPage', () => {
+    mockedUseCharacters.mockReturnValue({
+      data: {
+        results: mockedData,
+        info: mockedInfo,
+      },
+      isLoading: false,
+      error: null,
+    } as unknown as UseQueryResult<
+      { results: ICharacter[]; info: IInfo },
+      Error
+    >);
     render(
       <MemoryRouter>
         <MainPage />
@@ -49,11 +74,18 @@ describe('MainPage Component', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
-  it('should show loader while loading', async () => {
-    mockedService.getAllCharacters.mockResolvedValueOnce({
-      results: mockedData,
-      info: mockedInfo,
-    });
+  it('should show loader while loading', () => {
+    mockedUseCharacters.mockReturnValue({
+      data: {
+        results: mockedData,
+        info: mockedInfo,
+      },
+      isLoading: true,
+      error: null,
+    } as unknown as UseQueryResult<
+      { results: ICharacter[]; info: IInfo },
+      Error
+    >);
 
     render(
       <MemoryRouter>
@@ -62,76 +94,69 @@ describe('MainPage Component', () => {
     );
 
     expect(screen.getByTestId('loader')).toBeInTheDocument();
-
-    await screen.findByText('Rick');
-
-    expect(screen.queryByTestId('loader')).not.toBeInTheDocument();
-    expect(
-      screen.queryByText('Failed to fetch characters')
-    ).not.toBeInTheDocument();
   });
 
-  it('should show massege if no data', async () => {
-    mockedService.getAllCharacters.mockResolvedValueOnce({
-      results: [],
-      info: mockedInfo,
-    });
+  it('should show massege if no data', () => {
+    mockedUseCharacters.mockReturnValue({
+      data: {
+        results: [],
+        info: mockedInfo,
+      },
+      isLoading: false,
+      error: null,
+    } as unknown as UseQueryResult<
+      { results: ICharacter[]; info: IInfo },
+      Error
+    >);
     render(
       <MemoryRouter>
         <MainPage />
       </MemoryRouter>
     );
-    expect(
-      await screen.findByText(/sorry, no characters found/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/sorry, no characters found/i)).toBeInTheDocument();
   });
 
-  it('should throw error if data is null', async () => {
-    mockedService.getAllCharacters.mockResolvedValueOnce(
-      null as unknown as {
-        results: ICharacter[];
-        info: IInfo;
-      }
-    );
+  it('should throw error ', () => {
+    mockedUseCharacters.mockReturnValue({
+      data: {
+        results: mockedData,
+        info: mockedInfo,
+      },
+      isLoading: false,
+      error: new Error('Failed to fetch characters'),
+    } as unknown as UseQueryResult<
+      { results: ICharacter[]; info: IInfo },
+      Error
+    >);
     render(
       <MemoryRouter>
         <MainPage />
       </MemoryRouter>
     );
-    await expect(
-      screen.findByText(/you can search for characters/i)
-    ).resolves.toBeInTheDocument();
+    expect(screen.getByText(/failed to fetch characters/i)).toBeInTheDocument();
   });
+  it('should call refetch when refresh button is clicked', async () => {
+    mockedUseCharacters.mockReturnValue({
+      data: {
+        results: mockedData,
+        info: mockedInfo,
+      },
+      isLoading: false,
+      error: null,
+    } as unknown as UseQueryResult<
+      { results: ICharacter[]; info: IInfo },
+      Error
+    >);
 
-  it('should make initial API call on mount', async () => {
-    mockedService.getAllCharacters.mockResolvedValueOnce({
-      results: mockedData,
-      info: mockedInfo,
-    });
     render(
       <MemoryRouter>
         <MainPage />
       </MemoryRouter>
     );
-    await waitFor(() => {
-      expect(mockedService.getAllCharacters).toHaveBeenCalledTimes(1);
-      expect(mockedService.getAllCharacters).toHaveBeenCalledWith(1, {
-        name: 'Rick',
-      });
-    });
-  });
 
-  it('should show error message on API error', async () => {
-    mockedService.getAllCharacters.mockRejectedValueOnce(new Error());
-    render(
-      <MemoryRouter>
-        <MainPage />
-      </MemoryRouter>
-    );
-    await waitFor(() => {
-      expect(
-        screen.getByText('Failed to fetch characters')
-      ).toBeInTheDocument();
-    });
+    const button = screen.getByTestId('refresh');
+    await userEvent.click(button);
+
+    expect(invalidateQueriesMock).toHaveBeenCalledTimes(1);
   });
 });

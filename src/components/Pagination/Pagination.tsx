@@ -29,7 +29,7 @@ export const Pagination = ({ info }: PaginationProps): React.JSX.Element => {
       <button
         onClick={() => handleChangePage(prev)}
         disabled={!prev}
-        className="btn-icon"
+        className="btn-icon text-[1.5rem] "
         aria-label="Previous page"
       >
         <FaRegArrowAltCircleLeft />
@@ -42,7 +42,7 @@ export const Pagination = ({ info }: PaginationProps): React.JSX.Element => {
       <button
         onClick={() => handleChangePage(next)}
         disabled={!next}
-        className="btn-icon"
+        className="btn-icon text-[1.5rem] "
         aria-label="Next page"
       >
         <FaRegArrowAltCircleRight />
