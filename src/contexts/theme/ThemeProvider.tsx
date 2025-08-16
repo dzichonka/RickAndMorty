@@ -1,3 +1,4 @@
+'use client';
 import { useState, type ReactNode } from 'react';
 import ThemeContext from './ThemeContext';
 
@@ -6,10 +7,12 @@ interface ThemeProviderProps {
 }
 
 const ThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
+  const [theme, setTheme] = useState<'light-theme' | 'dark-theme'>(
+    'dark-theme'
+  );
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    setTheme((prev) => (prev === 'dark-theme' ? 'light-theme' : 'dark-theme'));
   };
 
   return (

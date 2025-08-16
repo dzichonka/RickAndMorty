@@ -1,23 +1,26 @@
+'use client';
 import type { IInfo } from '@/types/api-types';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
-import { useSearchParams } from 'react-router-dom';
 
 type PaginationProps = {
   info: IInfo;
 };
 export const Pagination = ({ info }: PaginationProps): React.JSX.Element => {
   const { next, prev, pages } = info;
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
-  const currentPage = Number(searchParams.get('page')) || 1;
+  const currentPage = Number(searchParams?.get('page')) || 1;
 
   const handleChangePage = (url: string | null) => {
     if (!url) return;
     const page = new URL(url).searchParams.get('page');
     if (page) {
-      searchParams.set('page', page);
-      setSearchParams(searchParams);
+      const newParams = new URLSearchParams(searchParams?.toString() || '');
+      newParams.set('page', page);
+      router.push(`?${newParams.toString()}`);
     }
   };
 

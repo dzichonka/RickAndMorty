@@ -1,38 +1,43 @@
+'use client';
 import type { IApiResponse, ICharacter } from '@/types/api-types';
 import Card from '@/components/Card/Card';
-import s from './Result.module.scss';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 type ResultProps = {
   data: IApiResponse<ICharacter>;
 };
 const Result = ({ data }: ResultProps): React.JSX.Element => {
   const { results } = data;
-  const [searchParams, setSearchParams] = useSearchParams();
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const handleCardClick = (id: number) => {
-    const newParams = new URLSearchParams(searchParams.toString());
+    const newParams = new URLSearchParams(searchParams?.toString() ?? '');
     newParams.set('details', id.toString());
-    setSearchParams(newParams);
+    router.replace(`/?${newParams.toString()}`);
   };
 
   const handleOutsideClick = (event: React.MouseEvent) => {
     const target = event.target as HTMLElement;
     if (target.closest('[data-testid="card"]')) return;
 
-    const newParams = new URLSearchParams(searchParams.toString());
+    const newParams = new URLSearchParams(searchParams?.toString() ?? '');
     newParams.delete('details');
-    setSearchParams(newParams);
+    router.replace(`/?${newParams.toString()}`);
   };
 
   return (
     <div
       data-testid="result"
-      className={`${s.result} flex flex-wrap items-center justify-center gap-4`}
+      className={
+        'flex flex-wrap items-center justify-center gap-4 max-[460px]:flex-col max-[460px]:items-center'
+      }
       onClick={(event) => handleOutsideClick(event)}
     >
       <div
-        className={`flex flex-wrap items-center justify-between gap-4 ${s.list}`}
+        className={
+          'flex flex-wrap items-center justify-between gap-4 max-[460px]:flex-col max-[460px]:items-center max-[460px]:justify-center'
+        }
       >
         {results.map((character) => (
           <div

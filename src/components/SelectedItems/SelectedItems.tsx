@@ -1,44 +1,28 @@
+'use client';
 import { useCardsStore } from '@/store/useCardsStore';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { createPortal } from 'react-dom';
 import { MdDownloadForOffline } from 'react-icons/md';
 import { MdDeleteForever } from 'react-icons/md';
 import { DownloadLink } from '../DownloadLink/DownloadLink';
+import { createCSV } from '@/app/actions';
+import Loader from '../Loader/Loader';
 
 export function SelectedItems() {
   const items = useCardsStore((state) => state.selectedItems);
   const reset = useCardsStore((state) => state.reset);
   const [downloadData, setDownloadData] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   if (items.length === 0) {
     return null;
   }
 
-  const handleDownload = () => {
-    const tableHeader = [
-      'id',
-      'name',
-      'status',
-      'species',
-      'type',
-      'gender',
-      'origin',
-      'location',
-    ];
-    const tableRows = items.map((item) => [
-      item.id,
-      item.name,
-      item.status,
-      item.species,
-      item.type,
-      item.gender,
-      item.origin.name,
-      item.location.name,
-    ]);
-    const csvContent = `${tableHeader.join(',')}\n${tableRows
-      .map((row) => row.join(','))
-      .join('\n')}`;
-    setDownloadData(csvContent);
+  const handleDownload = async () => {
+    startTransition(async () => {
+      const csvContent = await createCSV(items);
+      setDownloadData(csvContent);
+    });
   };
   return createPortal(
     <div className="w-full sticky bottom-0 bg-black/60 text-cyan-300 border-t border-white z-50">
@@ -57,7 +41,7 @@ export function SelectedItems() {
             <MdDeleteForever />
           </button>
           <button className="btn-icon text-[2rem]" onClick={handleDownload}>
-            <MdDownloadForOffline />
+            {isPending ? <Loader /> : <MdDownloadForOffline />}
           </button>
         </div>
       </div>

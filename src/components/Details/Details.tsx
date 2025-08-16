@@ -1,4 +1,5 @@
-import { useSearchParams } from 'react-router-dom';
+'use client';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Loader from '@/components/Loader/Loader';
 import { IoMdCloseCircleOutline } from 'react-icons/io';
 import { useOneCharacter } from '@/hooks/useOneCharacter/useOneCharacter';
@@ -7,17 +8,19 @@ import { RefetchButton } from '@/components/RefetchButton/RefetchButton';
 import { useQueryClient } from '@tanstack/react-query';
 
 export const Details = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const detailsId = searchParams.get('details');
+  const searchParams = useSearchParams();
+  const detailsId = searchParams?.get('details');
+  const router = useRouter();
 
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useOneCharacter(Number(detailsId));
 
   const handleClose = () => {
+    if (!searchParams) return;
     const newParams = new URLSearchParams(searchParams.toString());
     newParams.delete('details');
-    setSearchParams(newParams);
+    router.replace(`?${newParams.toString()}`);
   };
 
   return (
