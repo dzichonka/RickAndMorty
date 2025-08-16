@@ -2,7 +2,7 @@ import { Mansalva } from 'next/font/google';
 import './globals.scss';
 import ThemeProvider from '@/contexts/theme/ThemeProvider';
 
-import ClientThemeWrapper from '@/components/ClientThemeWrapper/ClientThemeWrapper';
+import ClientWrapper from '@/components/ClientWrapper/ClientWrapper';
 import { Header } from '@/components/Header/Header';
 
 const mansalva = Mansalva({
@@ -20,10 +20,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${mansalva.className} antialiased`}>
         <ThemeProvider>
-          <ClientThemeWrapper>
+          <ClientWrapper>
             <Header />
             {children}
-          </ClientThemeWrapper>
+          </ClientWrapper>
         </ThemeProvider>
       </body>
     </html>

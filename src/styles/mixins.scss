@@ -1,5 +1,3 @@
-@use './fonts.scss' as fonts;
-
 @mixin text($fs: 1rem) {
   font-family: fonts.$first-family;
   font-size: $fs;
@@ -17,7 +15,6 @@
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 0.5rem;
-  font-family: fonts.$font-family;
   color: var(--main-color);
   background-color: var(--bg-color);
   outline: none;
@@ -76,7 +73,6 @@
   align-items: center;
   justify-content: center;
   padding: 0.5rem 1rem;
-  font-family: fonts.$font-family;
   color: var(--second-color);
   background-color: transparent;
 
