@@ -3,7 +3,6 @@ import ThemeContext from '@/contexts/theme/ThemeContext';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { GrPaint } from 'react-icons/gr';
-import ErrorButton from '../ErrorButton/ErrorButton';
 
 export function Header() {
   const { toggleTheme } = useContext(ThemeContext);
@@ -26,7 +25,6 @@ export function Header() {
         >
           <GrPaint />
         </button>
-        <ErrorButton />
       </div>
     </header>
   );

@@ -3,9 +3,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 
-// type SearchProps = {
-//   onSearch: (search: string) => void;
-// };
 const Search = () => {
   const router = useRouter();
   const searchParams = useSearchParams();

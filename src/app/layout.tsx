@@ -1,6 +1,7 @@
 import { Mansalva } from 'next/font/google';
 import './globals.scss';
 import ThemeProvider from '@/contexts/theme/ThemeProvider';
+import '../styles/base.scss';
 
 import ClientWrapper from '@/components/ClientWrapper/ClientWrapper';
 import { Header } from '@/components/Header/Header';
