@@ -1,11 +1,13 @@
+import Image from 'next/image';
 const AboutPage = () => {
   return (
     <>
       <h1 className="h-[100px] flex items-center justify-center">
-        <img
-          className="h-[100px]"
-          src="./images/rick-and-morty-title.png"
+        <Image
+          src="/images/rick-and-morty-title.png"
           alt="rick and morty"
+          width={300}
+          height={100}
         />
       </h1>
       <div className="flex flex-col items-center justify-center bg-[var(--bg-color)]/90 shadow-[0_0_10px_8px_var(--bg-color)] rounded">

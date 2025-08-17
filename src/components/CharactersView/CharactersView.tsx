@@ -9,6 +9,7 @@ import { RefetchButton } from '@/components/RefetchButton/RefetchButton';
 import { useQueryClient } from '@tanstack/react-query';
 import { Details } from '../Details/Details';
 import { useSearchParams, useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const CharactersView = () => {
   const searchParams = useSearchParams();
@@ -36,11 +37,12 @@ const CharactersView = () => {
 
   return (
     <>
-      <h1 className="h-[100px] flex items-center justify-center">
-        <img
-          className="h-[100px]"
-          src="./images/rick-and-morty-title.png"
+      <h1 className="flex items-center justify-center">
+        <Image
+          src="/images/rick-and-morty-title.png"
           alt="rick and morty"
+          width={300}
+          height={100}
         />
       </h1>
       {isLoading && <Loader />}

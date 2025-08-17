@@ -2,6 +2,7 @@ import type { ICharacter } from '@/types/api-types';
 import { useCardsStore } from '@/store/useCardsStore';
 import { GrRadial } from 'react-icons/gr';
 import { GrRadialSelected } from 'react-icons/gr';
+import Image from 'next/image';
 
 type CardProps = { data: ICharacter };
 
@@ -22,12 +23,8 @@ const Card = ({ data }: CardProps): React.JSX.Element => {
       >
         {isSelected ? <GrRadialSelected /> : <GrRadial />}
       </button>
-      <div className="h-[150px] overflow-hidden rounded">
-        <img
-          className="h-full w-full display-block object-cover"
-          src={image}
-          alt={name}
-        />
+      <div className="relative h-[150px] w-[150px] overflow-hidden rounded">
+        <Image src={image} alt={name} fill className="object-cover" />
       </div>
       <p className="text-center">{name}</p>
       <p className="text-center text-sm text-[var(--second-color)]">
