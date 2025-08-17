@@ -1,20 +1,23 @@
 'use client';
+import { useTranslations } from 'next-intl';
 import ThemeContext from '@/contexts/theme/ThemeContext';
 import Link from 'next/link';
 import { useContext } from 'react';
 import { GrPaint } from 'react-icons/gr';
+import LangButton from '../LangButton/LangButton';
 
 export function Header() {
   const { toggleTheme } = useContext(ThemeContext);
+  const t = useTranslations('header');
   return (
     <header className="section flex flex-row items-center justify-between">
       <nav className="bg-[var(--bg-color)]/70 shadow-[0_0_20px_15px_var(--bg-color)]/70 rounded">
         <Link className="link" href="/">
-          Main
+          {t('main')}
         </Link>{' '}
         |{' '}
         <Link className="link" href="/about">
-          About
+          {t('about')}
         </Link>
       </nav>
       <div className="buttons flex flex-row items-center justify-center gap-2">
@@ -25,6 +28,7 @@ export function Header() {
         >
           <GrPaint />
         </button>
+        <LangButton />
       </div>
     </header>
   );

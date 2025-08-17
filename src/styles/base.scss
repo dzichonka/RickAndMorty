@@ -10,7 +10,7 @@ html {
   color: vars.$color-black;
 
   .background {
-    background-image: url('/images/bg-light.png');
+    background-image: url('/images/bg-light-theme.png');
   }
 }
 
@@ -18,8 +18,12 @@ html {
   color: vars.$color-cyan-300;
 
   .background {
-    background-image: url('/images/bg-dark.png');
+    background-image: url('/images/bg-dark-theme.png');
   }
+}
+
+.no-scale:hover {
+  scale: 1 !important;
 }
 
 .background {

@@ -1,5 +1,6 @@
 'use client';
 import type { IInfo } from '@/types/api-types';
+import { useTranslations } from 'next-intl';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { FaRegArrowAltCircleLeft } from 'react-icons/fa';
 import { FaRegArrowAltCircleRight } from 'react-icons/fa';
@@ -8,6 +9,7 @@ type PaginationProps = {
   info: IInfo;
 };
 export const Pagination = ({ info }: PaginationProps): React.JSX.Element => {
+  const t = useTranslations('pagination');
   const { next, prev, pages } = info;
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -39,7 +41,7 @@ export const Pagination = ({ info }: PaginationProps): React.JSX.Element => {
       </button>
 
       <span className="text-lg">
-        Page <strong>{currentPage}</strong> of {pages}
+        {t('page')} <strong>{currentPage}</strong> {t('of')} {pages}
       </span>
 
       <button

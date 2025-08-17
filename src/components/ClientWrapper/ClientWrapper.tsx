@@ -14,7 +14,8 @@ const ClientWrapper = ({ children }: { children: React.ReactNode }) => {
       <QueryClientProvider client={queryClient}>
         <div className={`${theme} container`}>
           <div className="background" data-testid="background"></div>
-          <main className="section">{children}</main>
+          {children}
+          <main className="section"></main>
         </div>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
