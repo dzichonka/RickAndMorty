@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const NotFoundPage = () => {
   return (
     <>
@@ -11,6 +13,9 @@ const NotFoundPage = () => {
       <div className="flex flex-col items-center justify-center">
         <p>404</p>
         <p>Page not found</p>
+        <Link href="/" className="bnt">
+          Go to main page
+        </Link>
       </div>
     </>
   );
