@@ -2,6 +2,6 @@
 
 - API: [The Rick and Morty](https://rickandmortyapi.com/)
 
-- Deploy: [Netlify](https://vercel.com/annas-projects-78ce1613/rick-and-morty/Fx3RfRhVqSGEQALmuo9J2Axyc1eK?filter=errors)
+- Deploy: [Vercel](https://rick-and-morty-1bdggkx66-annas-projects-78ce1613.vercel.app/)
 
 - Code: [GitHub](https://github.com/dzichonka/RickAndMorty)
