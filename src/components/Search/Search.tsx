@@ -1,24 +1,28 @@
+'use client';
+import { useTranslations } from 'next-intl';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 
-type SearchProps = {
-  onSearch: (search: string) => void;
-};
-const Search = ({ onSearch }: SearchProps) => {
-  const [search, setSearch] = useState(
-    localStorage.getItem('lastSearch') || ''
-  );
+const Search = () => {
+  const t = useTranslations('search');
+  const router = useRouter();
+  const searchParams = useSearchParams();
 
-  const LSValue = localStorage.getItem('lastSearch');
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    const lastSearch = localStorage.getItem('lastSearch') || '';
+    const paramSearch = searchParams ? (searchParams.get('name') ?? '') : '';
+    setSearch(lastSearch || paramSearch);
+  }, [searchParams]);
 
   const handleSearch = (event: React.FormEvent): void => {
     event?.preventDefault();
-    localStorage.setItem('lastSearch', search.trim());
-    onSearch(search.trim());
+    const value = search.trim();
+    localStorage.setItem('lastSearch', value);
+    router.push(`/?name=${encodeURIComponent(value)}&page=1`);
   };
-  useEffect(() => {
-    setSearch(LSValue || '');
-  }, [LSValue]);
 
   return (
     <form
@@ -33,7 +37,7 @@ const Search = ({ onSearch }: SearchProps) => {
           onChange={(event) => setSearch(event.target.value)}
           className="w-full px-2 py-1 border border-[var(--main-color)] bg-[var(--bg-color)] rounded
               focus:outline-none focus:ring-[var(--main-color)] focus:ring"
-          placeholder="Search..."
+          placeholder={t('search')}
         />
       </label>
       <button className="btn-icon" type="submit">

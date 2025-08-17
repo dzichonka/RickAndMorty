@@ -11,5 +11,5 @@ export default {
     'no-descending-specificity': null,
     'no-duplicate-selectors': null,
   },
-  ignoreFiles: ['dist/**/*'],
+  ignoreFiles: ['dist/**/*', '.next/**/*'],
 };
