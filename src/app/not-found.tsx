@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import Image from 'next/image';
 
 const NotFoundPage = () => {
@@ -15,9 +14,7 @@ const NotFoundPage = () => {
         </h1>
         <div className="flex flex-col items-center justify-center gap-4">
           <p>404</p>
-          <Link href="/" className="bnt m-6">
-            Go to main page
-          </Link>
+          <p>Page not found</p>
         </div>
       </body>
     </html>

@@ -1,7 +1,7 @@
 'use client';
 import { useTranslations } from 'next-intl';
 import ThemeContext from '@/contexts/theme/ThemeContext';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { useContext } from 'react';
 import { GrPaint } from 'react-icons/gr';
 import LangButton from '../LangButton/LangButton';
