@@ -1,18 +1,37 @@
 import { cleanup, render, screen, waitFor } from '@testing-library/react';
-import { describe, it, vi, expect, beforeEach, afterEach } from 'vitest';
+import {
+  describe,
+  it,
+  vi,
+  expect,
+  beforeEach,
+  afterEach,
+  type Mock,
+} from 'vitest';
 import '@testing-library/jest-dom';
 import { Details } from './Details';
 import { MemoryRouter } from 'react-router-dom';
 import type { ICharacter } from '@/types/api-types';
-import { characterService } from '@/services/CharacterServiece';
+import { useOneCharacter } from '@/hooks/useOneCharacter/useOneCharacter';
+import type { UseQueryResult } from '@tanstack/react-query';
+import userEvent from '@testing-library/user-event';
+import { useQueryClient } from '@tanstack/react-query';
 
-vi.mock('@/services/CharacterServiece', () => ({
-  characterService: {
-    getCharacter: vi.fn(),
-  },
+vi.mock('@tanstack/react-query', () => {
+  const actual = vi.importActual('@tanstack/react-query') as object;
+  return {
+    ...actual,
+    useQueryClient: vi.fn(),
+  };
+});
+
+const invalidateQueriesMock = vi.fn();
+
+vi.mock('@/hooks/useOneCharacter/useOneCharacter', () => ({
+  useOneCharacter: vi.fn(),
 }));
 
-const mockedService = vi.mocked(characterService);
+const mockedUseOneCharacter = vi.mocked(useOneCharacter);
 
 const mockCharacter: ICharacter = {
   id: 1,
@@ -32,6 +51,9 @@ const mockCharacter: ICharacter = {
 describe('Details', () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    (useQueryClient as Mock).mockReturnValue({
+      invalidateQueries: invalidateQueriesMock,
+    } as unknown as ReturnType<typeof useQueryClient>);
   });
 
   afterEach(() => {
@@ -39,7 +61,11 @@ describe('Details', () => {
   });
 
   it('shows loader while fetching', async () => {
-    mockedService.getCharacter.mockImplementation(() => new Promise(() => {}));
+    mockedUseOneCharacter.mockReturnValue({
+      data: undefined,
+      isLoading: true,
+      error: null,
+    } as unknown as UseQueryResult<ICharacter, Error>);
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
         <Details />
@@ -51,7 +77,11 @@ describe('Details', () => {
   });
 
   it('shows error message on failure', async () => {
-    mockedService.getCharacter.mockRejectedValue(new Error('Failed to fetch'));
+    mockedUseOneCharacter.mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      error: new Error('Failed to fetch character'),
+    } as unknown as UseQueryResult<ICharacter, Error>);
 
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
@@ -65,7 +95,11 @@ describe('Details', () => {
   });
 
   it('shows character data on success', async () => {
-    mockedService.getCharacter.mockResolvedValue(mockCharacter);
+    mockedUseOneCharacter.mockReturnValue({
+      data: mockCharacter,
+      isLoading: false,
+      error: null,
+    } as unknown as UseQueryResult<ICharacter, Error>);
 
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
@@ -90,7 +124,11 @@ describe('Details', () => {
   });
 
   it('shows fallback message if no data returned', async () => {
-    mockedService.getCharacter.mockResolvedValue(null as unknown as ICharacter);
+    mockedUseOneCharacter.mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      error: null,
+    } as unknown as UseQueryResult<ICharacter, Error>);
 
     render(
       <MemoryRouter initialEntries={['/?details=1']}>
@@ -103,5 +141,22 @@ describe('Details', () => {
         screen.getByText(/no details for this character/i)
       ).toBeInTheDocument()
     );
+  });
+  it('calls refetch when refresh button is clicked', async () => {
+    mockedUseOneCharacter.mockReturnValue({
+      data: mockCharacter,
+      error: null,
+    } as unknown as UseQueryResult<ICharacter, Error>);
+
+    render(
+      <MemoryRouter initialEntries={['/?details=1']}>
+        <Details />
+      </MemoryRouter>
+    );
+
+    const button = screen.getByTestId('refresh');
+    await userEvent.click(button);
+
+    expect(invalidateQueriesMock).toHaveBeenCalledTimes(1);
   });
 });
