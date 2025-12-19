@@ -1,10 +1,29 @@
-@use './fonts.scss' as fonts;
 @use './variables.scss' as vars;
 @use './mixins.scss' as mixins;
+@forward './themes';
 
 html {
   font-size: 16px;
+}
+
+.light-theme {
+  color: vars.$color-black;
+
+  .background {
+    background-image: url('/images/bg-light-theme.png');
+  }
+}
+
+.dark-theme {
   color: vars.$color-cyan-300;
+
+  .background {
+    background-image: url('/images/bg-dark-theme.png');
+  }
+}
+
+.no-scale:hover {
+  scale: 1 !important;
 }
 
 .background {
@@ -14,7 +33,6 @@ html {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('/images/bg.png');
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
@@ -24,20 +42,22 @@ html {
   scroll-behavior: smooth;
   box-sizing: border-box;
   margin: 0;
-  font-family: fonts.$font-family;
   font-weight: 400;
   font-style: normal;
 }
 
 .container {
+  position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   max-width: 1440px;
+  margin: 0 auto;
 }
 
 .section {
-  padding: 1rem;
+  padding: 1rem 2rem;
+  text-align: center;
 }
 
 .btn {
@@ -46,4 +66,8 @@ html {
 
 .btn-icon {
   @include mixins.btn-icon;
+}
+
+.link {
+  @include mixins.link;
 }

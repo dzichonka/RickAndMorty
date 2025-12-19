@@ -1,0 +1,25 @@
+{
+  "header": {
+    "about": "About",
+    "main": "Main"
+  },
+  "pagination": {
+    "page": "Page",
+    "of": "of"
+  },
+  "search": {
+    "search": "Search..."
+  },
+  "about": {
+    "title": "Hi there, Earthling (or whatever dimension you're from)!",
+    "intro1": "My name is Anna, a Rick-femail from a dimension where I temporarily put down my portal gun and picked up React.",
+    "intro2": "I built this SPA with React, caffeine, existential crises, and ADHD.",
+    "intro3": "Multiverse can wait. Right now I'm navigating routes, not realities.",
+    "callToAction": "If you're from a dimension where helping each other is cool:",
+    "linkedin1": "сheck out my ",
+    "linkedin2": " (no clones, please)",
+
+    "rsSchool1": "I'm currently in the middle of the ",
+    "rsSchool2": " It's like space bootcamp but for frontend devs."
+  }
+}
